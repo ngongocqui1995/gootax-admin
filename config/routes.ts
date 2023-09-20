@@ -1,13 +1,13 @@
 ﻿/**
- * @name umi 的路由配置
- * @description 只支持 path,component,routes,redirect,wrappers,name,icon 的配置
- * @param path  path 只支持两种占位符配置，第一种是动态参数 :id 的形式，第二种是 * 通配符，通配符只能出现路由字符串的最后。
- * @param component 配置 location 和 path 匹配后用于渲染的 React 组件路径。可以是绝对路径，也可以是相对路径，如果是相对路径，会从 src/pages 开始找起。
- * @param routes 配置子路由，通常在需要为多个路径增加 layout 组件时使用。
- * @param redirect 配置路由跳转
- * @param wrappers 配置路由组件的包装组件，通过包装组件可以为当前的路由组件组合进更多的功能。 比如，可以用于路由级别的权限校验
- * @param name 配置路由的标题，默认读取国际化文件 menu.ts 中 menu.xxxx 的值，如配置 name 为 login，则读取 menu.ts 中 menu.login 的取值作为标题
- * @param icon 配置路由的图标，取值参考 https://ant.design/components/icon-cn， 注意去除风格后缀和大小写，如想要配置图标为 <StepBackwardOutlined /> 则取值应为 stepBackward 或 StepBackward，如想要配置图标为 <UserOutlined /> 则取值应为 user 或者 User
+ * @name umi Cấu hình định tuyến
+ * @description Chỉ hỗ trợ path,component,routes,redirect,wrappers,name,icon Cấu hình
+ * @param path  path Chỉ hỗ trợ hai loại đàn vị trí, đầu tiên là các tham số động :id Trong biểu mẫu, loại thứ hai là khớp * -pass và đoạn văn chỉ có thể xuất hiện phần cuối của chuỗi định tuyến.
+ * @param component Cấu hình location Và path Sau khi kết xuất để kết xuất React Đường dẫn thành phần.Nó có thể là đường dẫn tuyệt đối hoặc đường dẫn tương đối. Nếu đó là một đường dẫn tương đối, nó sẽ đến từ src/pages Bắt đầu tìm kiếm.
+ * @param routes Cấu hình phụ, thường được tăng lên bởi nhiều đường dẫn layout Sử dụng khi thành phần.
+ * @param redirect Cấu hình nhảy tuyến đường
+ * @param wrappers Thành phần đóng gói của thành phần định tuyến cấu hình có thể được kết hợp với nhiều chức năng hơn cho thành phần định tuyến hiện tại. Ví dụ: nó có thể được sử dụng cho các quyền của cấp độ định tuyến
+ * @param name Định cấu hình tiêu đề của định tuyến, đọc các tài liệu quốc tế theo mặc định menu.ts ở giữa menu.xxxx Giá trị, giống như cấu hình name vì login，Đọc menu.ts ở giữa menu.login Giá trị của giá trị là tiêu đề
+ * @param icon Định cấu hình biểu tượng định tuyến, hãy tham khảo giá trị https://ant.design/components/icon-cn， Hãy chú ý loại bỏ hậu tố kiểu và chữ thường. Nếu bạn muốn định cấu hình biểu tượng là <StepBackwardOutlined /> Giá trị nên được stepBackward hoặc StepBackward，Nếu bạn muốn định cấu hình biểu tượng là <UserOutlined /> Giá trị nên được user hoặc User
  * @doc https://umijs.org/docs/guides/routes
  */
 export default [
@@ -20,40 +20,51 @@ export default [
         path: '/user/login',
         component: './User/Login',
       },
+      {
+        path: '/user',
+        redirect: '/user/login',
+      },
     ],
-  },
-  {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
-    component: './Welcome',
   },
   {
     path: '/admin',
     name: 'admin',
     icon: 'crown',
-    access: 'canAdmin',
+    access: '/admin',
     routes: [
       {
-        path: '/admin',
-        redirect: '/admin/sub-page',
+        name: 'Permission',
+        icon: 'control',
+        path: '/admin/permissions',
+        access: '/admin/permissions',
+        component: './Admin/Permission',
       },
       {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        component: './Admin',
+        name: 'Menu',
+        icon: 'menu',
+        path: '/admin/menus',
+        access: '/admin/menus',
+        component: './Admin/Menu',
+      },
+      {
+        name: 'Role',
+        icon: 'gold',
+        path: '/admin/roles',
+        access: '/admin/roles',
+        component: './Admin/Role',
+      },
+      {
+        name: 'User',
+        icon: 'user',
+        path: '/admin/users',
+        access: '/admin/users',
+        component: './Admin/User',
+      },
+      {
+        path: '/admin',
+        redirect: '/admin/users',
       },
     ],
-  },
-  {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
-  },
-  {
-    path: '/',
-    redirect: '/welcome',
   },
   {
     path: '*',

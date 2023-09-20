@@ -1,0 +1,16 @@
+export { default as UploadAvatar } from '@/components/ProForm/ProFormAvatar';
+export { default as SelectColor } from '@/components/ProForm/ProFormColor';
+export { default as DateRange } from '@/components/ProForm/ProFormDateRange';
+export { default as DigitDiscount } from '@/components/ProForm/ProFormDiscount';
+export { default as DigitQuantity } from '@/components/ProForm/ProFormQuantity';
+export { default as SelectGender } from '@/components/ProForm/ProFormSelectGender';
+export { default as SelectMenu } from '@/components/ProForm/ProFormSelectMenu';
+export { default as SelectPermission } from '@/components/ProForm/ProFormSelectPermission';
+export { default as SelectRole } from '@/components/ProForm/ProFormSelectRole';
+export { default as SelectTypeMenu } from '@/components/ProForm/ProFormSelectTypeMenu';
+export { default as TextDescription } from '@/components/ProForm/ProFormTextDescription';
+export { default as TextEmail } from '@/components/ProForm/ProFormTextEmail';
+export { default as TextName } from '@/components/ProForm/ProFormTextName';
+export { default as TextPassword } from '@/components/ProForm/ProFormTextPassword';
+export { default as TextPhone } from '@/components/ProForm/ProFormTextPhone';
+export { default as TextUrl } from '@/components/ProForm/ProFormTextUrl';

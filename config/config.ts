@@ -47,7 +47,7 @@ export default defineConfig({
    * @name layout
    * @doc https://umijs.org/docs/max/layout-menu
    */
-  title: 'Salesman',
+  title: 'GooTax',
   layout: {
     locale: true,
     ...defaultSettings,
@@ -126,4 +126,5 @@ export default defineConfig({
   publicPath: '/',
   exportStatic: {},
   cacheDirectoryPath: '.cache',
+  tailwindcss: {},
 });

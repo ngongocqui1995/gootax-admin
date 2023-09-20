@@ -1,21 +1,63 @@
 import logo from '@/assets/logo.png';
 import { getSettingDrawer } from '@/utils/handler';
+import { saveToken } from '@/utils/utils';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginFormPage, ProForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
-import { useDispatch, useModel } from '@umijs/max';
+import { history, useIntl, useModel } from '@umijs/max';
+import { message } from 'antd';
 import React from 'react';
 import TaxiBg from './components/TaxiBackground';
+import { UserLogin } from './data';
+import { getProfile, login } from './services';
+
+const goto = () => {
+  if (!history) return;
+  setTimeout(() => {
+    const { query } = history.location;
+    const { redirect } = query || {};
+    history.push(redirect || '/admin');
+  }, 10);
+};
 
 const Login: React.FC = () => {
-  const [submitting, setSubmitting] = React.useState(false);
+  const [loginSubmitting, setLoginSubmitting] = React.useState(false);
   const { initialState, setInitialState } = useModel('@@initialState');
-  const dispatch = useDispatch();
   const [form] = ProForm.useForm();
   const settingDrawer = getSettingDrawer();
   const setting = { ...initialState?.settings, ...settingDrawer };
+  const intl = useIntl();
 
-  const handleSubmit = async (values) => {};
+  const fetchUserInfo = async () => {
+    const userInfo = await getProfile();
+
+    if (userInfo) {
+      setInitialState({
+        ...initialState,
+        currentUser: userInfo,
+      });
+      message.success(
+        intl.formatMessage({
+          id: 'pages.login.success',
+          defaultMessage: 'Đăng nhập thành công!',
+        }),
+      );
+      goto();
+    }
+  };
+
+  const handleLoginSubmit = async (values: UserLogin.LoginParams) => {
+    setLoginSubmitting(true);
+    const res = await login({
+      email: values.username,
+      password: values.password,
+    });
+    setLoginSubmitting(false);
+
+    if (!res) return;
+    saveToken(res?.token);
+    await fetchUserInfo();
+  };
 
   const rootClassName = useEmotionCss(() => {
     return {
@@ -81,8 +123,8 @@ const Login: React.FC = () => {
         initialValues={{
           autoLogin: true,
         }}
-        onFinish={async (values: LoginParamsType) => {
-          await handleSubmit(values);
+        onFinish={async (values: UserLogin.LoginParams) => {
+          await handleLoginSubmit(values);
         }}
         activityConfig={{
           style: {
@@ -101,7 +143,7 @@ const Login: React.FC = () => {
         submitter={{
           searchConfig: { submitText: 'Đăng nhập' },
           submitButtonProps: {
-            loading: submitting,
+            loading: loginSubmitting,
             size: 'large',
             style: { width: '100%' },
             className: 'btn-login',
@@ -116,7 +158,6 @@ const Login: React.FC = () => {
           fieldProps={{
             size: 'large',
             prefix: <UserOutlined />,
-            maxLength: 12,
           }}
           placeholder="Nhập vào tài khoản."
           rules={[{ required: true, message: 'Tài khoản là bắt buộc!' }]}
@@ -126,7 +167,6 @@ const Login: React.FC = () => {
           fieldProps={{
             size: 'large',
             prefix: <LockOutlined />,
-            maxLength: 6,
           }}
           placeholder="Nhập mật khẩu."
           rules={[{ required: true, message: 'Mật khẩu là bắt buộc!' }]}
