@@ -1,14 +1,19 @@
-import { AvatarDropdown, AvatarName, Footer, Question, SelectLang } from '@/components';
-import { LinkOutlined } from '@ant-design/icons';
+import { AvatarDropdown, AvatarName } from '@/components';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
-import { SettingDrawer } from '@ant-design/pro-components';
-import type { RunTimeLayoutConfig } from '@umijs/max';
-import { Link, history } from '@umijs/max';
+// @ts-ignore
+import { history, Link, RunTimeLayoutConfig } from '@umijs/max';
+import { Space } from 'antd';
+import { JSXElementConstructor, ReactElement, ReactNode, ReactPortal } from 'react';
+import { AvatarIcon } from './components/RightContent/AvatarDropdown';
+import { SuperNoFoundPage, SuperUnAccessiblePage } from './components/SuperErrorPage';
+import SuperErrorBoundary from './components/SuperErrorPage/SuperErrorBoundary';
 import { getProfile } from './pages/User/Login/services';
 import { errorConfig } from './requestErrorConfig';
+import { getSettingDrawer } from './utils/handler';
 import { getToken, importLocale, removeToken } from './utils/utils';
-const isDev = process.env.NODE_ENV === 'development';
+
 const loginPath = '/user/login';
+const homePath = '/';
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -48,81 +53,122 @@ export async function getInitialState(): Promise<{
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
+export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
-    actionsRender: () => [<Question key="doc" />, <SelectLang key="SelectLang" />],
+    actionsRender: () => [],
+    title: 'GooTax',
+    logo: '/logo.svg',
     avatarProps: {
-      src: initialState?.currentUser?.avatar,
+      src: () => initialState?.currentUser?.avatar,
       title: <AvatarName />,
-      render: (_, avatarChildren) => {
+      icon: <AvatarIcon />,
+      size: 'small',
+      style: !initialState?.currentUser?.avatar && {
+        verticalAlign: 'center',
+        backgroundColor: '#f56a00',
+      },
+      gap: 4,
+      render: (
+        _: any,
+        avatarChildren:
+          | string
+          | number
+          | boolean
+          | ReactElement<any, string | JSXElementConstructor<any>>
+          | Iterable<ReactNode>
+          | ReactPortal
+          | null
+          | undefined,
+      ) => {
         return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
       },
     },
     waterMarkProps: {
       content: '', // waterMark empty
     },
-    footerRender: () => <Footer />,
+    contentStyle: { padding: 0 },
     onPageChange: () => {
       const { location } = history;
-      // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
+      // get token
+      const token = getToken();
+      // No token, redirect to login page
+      if (!token && location.pathname !== loginPath) {
         history.push(loginPath);
       }
+      // Existed token, redirect to home page
+      if (token && location.pathname === loginPath) {
+        history.push(homePath);
+      }
     },
-    bgLayoutImgList: [
-      {
-        src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/D2LWSqNny4sAAAAAAAAAAAAAFl94AQBr',
-        left: 85,
-        bottom: 100,
-        height: '303px',
-      },
-      {
-        src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/C2TWRpJpiC0AAAAAAAAAAAAAFl94AQBr',
-        bottom: -68,
-        right: -45,
-        height: '303px',
-      },
-      {
-        src: 'https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/F6vSTbj8KpYAAAAAAAAAAAAAFl94AQBr',
-        bottom: 0,
-        left: 0,
-        width: '331px',
-      },
-    ],
-    links: isDev
-      ? [
-          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
-            <LinkOutlined />
-            <span>OpenAPI 文档</span>
-          </Link>,
-        ]
-      : [],
+    className: 'layout-sidebar',
     menuHeaderRender: undefined,
-    // 自定义 403 页面
+    headerTitleRender: (logo: any) => <a>{logo}</a>,
+    // Tùy chỉnh 403 trang
     // unAccessible: <div>unAccessible</div>,
-    // 增加一个 loading 的状态
+    // cộng một loading trạng thái
     childrenRender: (children) => {
-      // if (initialState?.loading) return <PageLoading />;
       return (
         <>
           {children}
-          {isDev && (
-            <SettingDrawer
-              disableUrlParams
-              enableDarkTheme
-              settings={initialState?.settings}
-              onSettingChange={(settings) => {
-                setInitialState((preInitialState) => ({
-                  ...preInitialState,
-                  settings,
-                }));
-              }}
-            />
-          )}
+          {/* <SettingDrawer
+            disableUrlParams
+            enableDarkTheme
+            hideCopyButton
+            hideHintAlert
+            settings={{
+              ...initialState?.settings,
+              ...getSettingDrawer(),
+            }}
+            onSettingChange={(settings) => {
+              saveSettingDrawer(settings);
+              setInitialState((preInitialState) => ({
+                ...preInitialState,
+                settings: {
+                  ...settings,
+                  ...getSettingDrawer(),
+                },
+              }));
+            }}
+          /> */}
         </>
       );
     },
-    ...initialState?.settings,
+    menuItemRender: (
+      menuItemProps: { isUrl: any; children: any; path: any },
+      defaultDom:
+        | string
+        | number
+        | boolean
+        | ReactElement<any, string | JSXElementConstructor<any>>
+        | Iterable<ReactNode>
+        | ReactPortal
+        | null
+        | undefined,
+    ) => {
+      if (menuItemProps.isUrl || menuItemProps.children) {
+        return defaultDom;
+      }
+
+      if (menuItemProps.path) {
+        return (
+          <Link to={menuItemProps.path}>
+            <Space>
+              {/* {menuItemProps?.icon} */}
+              {defaultDom}
+            </Space>
+          </Link>
+        );
+      }
+
+      return defaultDom;
+    },
+    ErrorBoundary: SuperErrorBoundary,
+    unAccessible: <SuperUnAccessiblePage />,
+    noFound: <SuperNoFoundPage />,
+    ...{
+      ...initialState?.settings,
+      ...getSettingDrawer(),
+    },
   };
 };
 

@@ -59,6 +59,23 @@ export const validationPassWord = (_: any, value: string) => {
   );
 };
 
+/** Remove localStorage */
+export const removeLocalStorage = () => {
+  const isNotifyFirebase = localStorage.getItem('notify_firebase');
+  const isWatchedIntro = localStorage.getItem('watched_intro');
+  const settingDrawer = localStorage.getItem('setting_drawer');
+  const locale = localStorage.getItem('umi_locale');
+
+  localStorage.clear();
+
+  // NOTE: except fields
+  // reset - watched intro
+  if (isWatchedIntro) localStorage.setItem('watched_intro', 'true');
+  if (settingDrawer) localStorage.setItem('setting_drawer', settingDrawer);
+  if (isNotifyFirebase) localStorage.setItem('notify_firebase', 'true');
+  if (locale) localStorage.setItem('umi_locale', locale);
+};
+
 export const joinConverter = (params: object, join_params: object = {}): string => {
   let newString = '';
   const newArray: any[] = [];

@@ -89,7 +89,6 @@ export default defineConfig({
       content: 'Ứng dụng đặt xe taxi hàng đầu việt nam',
     },
   ],
-
   headScripts: [{ src: '/scripts/loading.js', async: true }],
   presets: ['umi-presets-pro'],
   /**
