@@ -3,29 +3,27 @@ import React, { useEffect, useRef, useState } from 'react';
 // @ts-ignore
 import {
   SelectGender,
-  SelectRole,
-  TextEmail,
   TextName,
   TextPassword,
   TextPhone,
   UploadAvatar,
 } from '@/components/ProForm';
 import { ActionAvatar } from '@/components/ProForm/ProFormAvatar/data';
-import { UserModalState } from '@/pages/Admin/User/model';
-import { changePasswordUser, createUser, updateUser } from '@/pages/Admin/User/service';
 import { TYPE_FORM } from '@/utils/utils.enum';
 import ProForm from '@ant-design/pro-form';
 import { useDispatch, useIntl, useSelector } from '@umijs/max';
+import { CustomerModalState } from '../../model';
+import { changePasswordCustomer, createCustomer, updateCustomer } from '../../service';
 
 const formLayout = {
   labelCol: { span: 6 },
   wrapperCol: { span: 14 },
 };
 
-const UserForm: React.FC = () => {
+const CustomerForm: React.FC = () => {
   const dispatch = useDispatch();
   const intl = useIntl();
-  const user: UserModalState = useSelector((state: any) => state?.user);
+  const customer: CustomerModalState = useSelector((state: any) => state?.customer);
   const [modalVisible, setModalVisible] = useState(false);
   const modalRef = useRef(null);
   const avatarRef = useRef<ActionAvatar>();
@@ -33,47 +31,40 @@ const UserForm: React.FC = () => {
 
   useEffect(() => {
     (function () {
-      if (user.UserForm?.type) {
-        if (user.UserForm?.type === TYPE_FORM.CREATE) {
+      if (customer.CustomerForm?.type) {
+        if (customer.CustomerForm?.type === TYPE_FORM.CREATE) {
           form.resetFields();
           avatarRef.current?.setImageUrl('');
         }
-        if ([TYPE_FORM.UPDATE, TYPE_FORM.COPY].includes(user.UserForm?.type)) {
+        if ([TYPE_FORM.UPDATE, TYPE_FORM.COPY].includes(customer.CustomerForm?.type)) {
           form.setFieldsValue({
-            ...user.UserForm.itemEdit,
-            role: user.UserForm.itemEdit?.role?.id,
+            ...customer.CustomerForm.itemEdit,
           });
-          avatarRef.current?.setImageUrl(user.UserForm.itemEdit?.avatar || '');
+          avatarRef.current?.setImageUrl(customer.CustomerForm.itemEdit?.avatar || '');
         }
       }
-      setModalVisible(!!user.UserForm?.type);
+      setModalVisible(!!customer.CustomerForm?.type);
     })();
-  }, [user.UserForm?.type]);
+  }, [customer.CustomerForm?.type]);
 
   const renderContent = () => {
-    if (!user.UserForm?.type) return;
+    if (!customer.CustomerForm?.type) return;
     return (
       <>
-        {![TYPE_FORM.UPDATE_PASSWORD].includes(user.UserForm?.type) && (
+        {![TYPE_FORM.UPDATE_PASSWORD].includes(customer.CustomerForm?.type) && (
           <>
             <UploadAvatar ref={avatarRef} folder="avatar" />
             <TextName />
             <TextPhone />
-            <TextEmail />
-            {user.UserForm?.type !== TYPE_FORM.UPDATE && <TextPassword />}
+            {customer.CustomerForm?.type !== TYPE_FORM.UPDATE && <TextPassword />}
             <SelectGender
-              fieldProps={{
-                getPopupContainer: (node) => (modalRef && modalRef.current) || node.parentNode,
-              }}
-            />
-            <SelectRole
               fieldProps={{
                 getPopupContainer: (node) => (modalRef && modalRef.current) || node.parentNode,
               }}
             />
           </>
         )}
-        {[TYPE_FORM.UPDATE_PASSWORD].includes(user.UserForm?.type) && (
+        {[TYPE_FORM.UPDATE_PASSWORD].includes(customer.CustomerForm?.type) && (
           <>
             <TextPassword
               name="new_password"
@@ -108,26 +99,26 @@ const UserForm: React.FC = () => {
   };
 
   const onCancel = () => {
-    dispatch({ type: 'user/updateUserForm', payload: { type: '' } });
+    dispatch({ type: 'customer/updateCustomerForm', payload: { type: '' } });
     form.resetFields();
     avatarRef.current?.setImageUrl('');
   };
 
   const renderTitle = () => {
-    switch (user.UserForm?.type) {
+    switch (customer.CustomerForm?.type) {
       case TYPE_FORM.CREATE:
         return intl.formatMessage({
-          id: 'pages.Admin.User.UserForm.Create.title',
+          id: 'pages.Admin.Customer.CustomerForm.Create.title',
           defaultMessage: 'Thêm mới người dùng',
         });
       case TYPE_FORM.UPDATE:
         return intl.formatMessage({
-          id: 'pages.Admin.User.UserForm.Update.title',
+          id: 'pages.Admin.Customer.CustomerForm.Update.title',
           defaultMessage: 'Cập nhật người dùng',
         });
       case TYPE_FORM.UPDATE_PASSWORD:
         return intl.formatMessage({
-          id: 'pages.Admin.User.UserForm.UpdatePassword.title',
+          id: 'pages.Admin.Customer.CustomerForm.UpdatePassword.title',
           defaultMessage: 'Đổi mật khẩu',
         });
       default:
@@ -136,20 +127,20 @@ const UserForm: React.FC = () => {
   };
 
   const renderSubmitText = () => {
-    switch (user.UserForm?.type) {
+    switch (customer.CustomerForm?.type) {
       case TYPE_FORM.CREATE:
         return intl.formatMessage({
-          id: 'pages.Admin.User.UserForm.Create.submitText',
+          id: 'pages.Admin.Customer.CustomerForm.Create.submitText',
           defaultMessage: 'Tạo mới',
         });
       case TYPE_FORM.UPDATE:
         return intl.formatMessage({
-          id: 'pages.Admin.User.UserForm.Update.submitText',
+          id: 'pages.Admin.Customer.CustomerForm.Update.submitText',
           defaultMessage: 'Cập nhật',
         });
       case TYPE_FORM.UPDATE_PASSWORD:
         return intl.formatMessage({
-          id: 'pages.Admin.User.UserForm.UpdatePassword.submitText',
+          id: 'pages.Admin.Customer.CustomerForm.UpdatePassword.submitText',
           defaultMessage: 'Cập nhật',
         });
       default:
@@ -179,24 +170,24 @@ const UserForm: React.FC = () => {
             };
 
             let res;
-            switch (user.UserForm?.type) {
+            switch (customer.CustomerForm?.type) {
               case TYPE_FORM.CREATE: {
-                res = await createUser(body);
+                res = await createCustomer(body);
                 break;
               }
               case TYPE_FORM.UPDATE: {
-                res = await updateUser(user.UserForm.itemEdit?.id || '', body);
+                res = await updateCustomer(customer.CustomerForm.itemEdit?.id || '', body);
                 break;
               }
               case TYPE_FORM.UPDATE_PASSWORD: {
                 delete body.avatar;
-                res = await changePasswordUser(user.UserForm.itemEdit?.id || '', body);
+                res = await changePasswordCustomer(customer.CustomerForm.itemEdit?.id || '', body);
                 break;
               }
             }
             if (res) {
               onCancel();
-              user.UserList?.reload?.();
+              customer.CustomerList?.reload?.();
             }
           }}
           submitter={{
@@ -204,12 +195,14 @@ const UserForm: React.FC = () => {
             searchConfig: {
               submitText: renderSubmitText(),
               resetText: intl.formatMessage({
-                id: 'pages.Admin.User.UserForm.resetText',
+                id: 'pages.Admin.Customer.CustomerForm.resetText',
                 defaultMessage: 'Làm mới',
               }),
             },
             resetButtonProps: {
-              className: [TYPE_FORM.UPDATE, TYPE_FORM.UPDATE_PASSWORD].includes(user.UserForm?.type)
+              className: [TYPE_FORM.UPDATE, TYPE_FORM.UPDATE_PASSWORD].includes(
+                customer.CustomerForm?.type,
+              )
                 ? 'hidden'
                 : '',
             },
@@ -225,4 +218,4 @@ const UserForm: React.FC = () => {
   );
 };
 
-export default UserForm;
+export default CustomerForm;

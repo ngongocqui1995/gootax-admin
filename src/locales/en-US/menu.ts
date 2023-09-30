@@ -4,11 +4,10 @@ export default {
   'menu.admin.Role': 'Role Management',
   'menu.admin.Menu': 'Menu Management',
   'menu.admin.Permission': 'Permission Management',
+  'menu.admin.Customer': 'Customer Management',
   'menu.login': 'Login',
   'menu.system': 'System',
   'menu.store': 'Store',
-  'menu.campaign': 'Campaign',
-  'menu.voucher': 'Voucher',
   'menu.account': 'Personal Information',
   'menu.setting': 'Setting',
 };

@@ -4,6 +4,7 @@ import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { history, Link, RunTimeLayoutConfig } from '@umijs/max';
 import { Space } from 'antd';
 import { JSXElementConstructor, ReactElement, ReactNode, ReactPortal } from 'react';
+import defaultSettings from '../config/defaultSettings';
 import { AvatarIcon } from './components/RightContent/AvatarDropdown';
 import { SuperNoFoundPage, SuperUnAccessiblePage } from './components/SuperErrorPage';
 import SuperErrorBoundary from './components/SuperErrorPage/SuperErrorBoundary';
@@ -48,7 +49,7 @@ export async function getInitialState(): Promise<{
   return {
     fetchUserInfo,
     currentUser,
-    settings: {},
+    settings: defaultSettings as Partial<LayoutSettings>,
   };
 }
 

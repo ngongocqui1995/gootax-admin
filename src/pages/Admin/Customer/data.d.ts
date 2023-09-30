@@ -1,9 +1,8 @@
 import { RoleItem } from '@/pages/Admin/Role/data';
 
-export interface UserItem {
+export interface CustomerItem {
   avatar: string;
   createdAt: string;
-  email: string;
   gender: string;
   id: string;
   name: string;
@@ -13,9 +12,8 @@ export interface UserItem {
   updatedAt: string;
 }
 
-export interface CreateUser {
+export interface CreateCustomer {
   avatar: string;
-  email: string;
   gender: string;
   name: string;
   phone: string;
@@ -23,28 +21,27 @@ export interface CreateUser {
   role: string;
 }
 
-export interface UpdateUser {
+export interface UpdateCustomer {
   avatar: string;
-  email: string;
   gender: string;
   name: string;
   phone: string;
   role: string;
 }
 
-export interface ChangePasswordUser {
+export interface ChangePasswordCustomer {
   current_password: string;
   confirm_password: string;
   new_password: string;
 }
 
-export interface QueryUsers {
-  data: UserItem[];
+export interface QueryCustomers {
+  data: CustomerItem[];
   total: number;
   success: boolean;
 }
 
-export interface ChangeStatusUser {
+export interface ChangeStatusCustomer {
   status: string;
   message: string;
 }

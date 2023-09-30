@@ -1,4 +1,3 @@
-import { queryUsers } from '@/pages/Admin/User/service';
 import {
   FALLBACK_STRING,
   PAGINATE_OPTIONS,
@@ -15,16 +14,16 @@ import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import React, { useEffect, useRef } from 'react';
 // @ts-ignore
 import Access from '@/components/Access';
-import { SelectRole } from '@/components/ProForm';
-import ChangeStatusUser from '@/pages/Admin/User/components/UserList/components/ChangeStatusUser';
-import CreateUser from '@/pages/Admin/User/components/UserList/components/ToolBar/CreateUser';
-import { UserItem } from '@/pages/Admin/User/data';
 import { SIZE_AVATAR, TYPE_FORM } from '@/utils/utils.enum';
 import styles from '@/utils/utils.less';
 import { useDispatch, useIntl } from '@umijs/max';
-import { Image, Tag, Tooltip } from 'antd';
+import { Image, Tooltip } from 'antd';
+import { CustomerItem } from '../../data';
+import { queryCustomers } from '../../service';
+import ChangeStatusCustomer from './components/ChangeStatusCustomer';
+import CreateCustomer from './components/ToolBar/CreateCustomer';
 
-const UserList: React.FC = () => {
+const CustomerList: React.FC = () => {
   const intl = useIntl();
   const actionRef = useRef<ActionType>();
   const dispatch = useDispatch();
@@ -32,28 +31,28 @@ const UserList: React.FC = () => {
 
   useEffect(() => {
     dispatch({
-      type: 'user/updateUserList',
+      type: 'customer/updateCustomerList',
       payload: {
         reload: () => actionRef.current?.reload(),
       },
     });
   }, []);
 
-  const columns: ProColumns<UserItem>[] = [
+  const columns: ProColumns<CustomerItem>[] = [
     {
       title: intl.formatMessage({ id: 'pages.keyword', defaultMessage: 'Tìm theo' }),
       dataIndex: 'keyword',
       hideInTable: true,
       formItemProps: {
         tooltip: intl.formatMessage({
-          id: 'pages.Admin.User.UserList.tooltip',
-          defaultMessage: 'Bạn có thể tìm kiếm theo tên, email, số điện thoại.',
+          id: 'pages.Admin.Customer.CustomerList.tooltip',
+          defaultMessage: 'Bạn có thể tìm kiếm theo tên, số điện thoại.',
         }),
       },
       fieldProps: {
         placeholder: intl.formatMessage({
-          id: 'pages.Admin.User.UserList.placeholder',
-          defaultMessage: 'Nhập mã, tên, email, số điện thoại.',
+          id: 'pages.Admin.Customer.CustomerList.placeholder',
+          defaultMessage: 'Nhập mã, tên, số điện thoại.',
         }),
       },
     },
@@ -62,7 +61,7 @@ const UserList: React.FC = () => {
       dataIndex: 'avatar',
       width: 120,
       search: false,
-      render: (_, record: UserItem) => {
+      render: (_, record: CustomerItem) => {
         return (
           <a className={styles.avatar}>
             <Image
@@ -108,21 +107,6 @@ const UserList: React.FC = () => {
       valueEnum: getGenderEnum(),
     },
     {
-      title: intl.formatMessage({ id: 'pages.role', defaultMessage: 'Role' }),
-      dataIndex: 'role.name',
-      renderFormItem: () => <SelectRole noStyle rules={[]} />,
-      width: 150,
-      renderText: (_, record: UserItem) => {
-        return record?.role?.id && <Tag color={record?.role?.color}>{record?.role?.name}</Tag>;
-      },
-    },
-    {
-      title: intl.formatMessage({ id: 'pages.email', defaultMessage: 'Email' }),
-      dataIndex: 'email',
-      width: 150,
-      search: false,
-    },
-    {
       title: intl.formatMessage({ id: 'pages.createdAt', defaultMessage: 'Ngày tạo' }),
       dataIndex: 'createdAt',
       valueType: 'dateTime',
@@ -142,8 +126,8 @@ const UserList: React.FC = () => {
       title: intl.formatMessage({ id: 'pages.status', defaultMessage: 'Trạng thái' }),
       dataIndex: 'status',
       width: 100,
-      renderText: (dom, record: UserItem) => {
-        return <ChangeStatusUser status={dom} record={record} />;
+      renderText: (dom, record: CustomerItem) => {
+        return <ChangeStatusCustomer status={dom} record={record} />;
       },
       fieldProps: {
         placeholder: intl.formatMessage({
@@ -166,7 +150,7 @@ const UserList: React.FC = () => {
       render: (_, record) => [
         <Tooltip
           className={`${access.className([TYPE_FORM.UPDATE])}`}
-          key="update-user"
+          key="update-customer"
           title={getUpdateTooltip()}
           color="cyan"
           placement="left"
@@ -174,7 +158,7 @@ const UserList: React.FC = () => {
           <a
             onClick={() => {
               dispatch({
-                type: 'user/updateUserForm',
+                type: 'customer/updateCustomerForm',
                 payload: { itemEdit: record, type: TYPE_FORM.UPDATE },
               });
             }}
@@ -184,7 +168,7 @@ const UserList: React.FC = () => {
         </Tooltip>,
         <Tooltip
           className={`${access.className([TYPE_FORM.COPY])}`}
-          key="copy-user"
+          key="copy-customer"
           title={getCopyTooltip()}
           color="cyan"
           placement="left"
@@ -192,7 +176,7 @@ const UserList: React.FC = () => {
           <a
             onClick={() => {
               dispatch({
-                type: 'user/updateUserForm',
+                type: 'customer/updateCustomerForm',
                 payload: { itemEdit: record, type: TYPE_FORM.COPY },
               });
             }}
@@ -202,7 +186,7 @@ const UserList: React.FC = () => {
         </Tooltip>,
         <Tooltip
           className={`${access.className([TYPE_FORM.UPDATE_PASSWORD])}`}
-          key="change-password-user"
+          key="change-password-customer"
           title={getUpdatePasswordTooltip()}
           color="cyan"
           placement="left"
@@ -210,7 +194,7 @@ const UserList: React.FC = () => {
           <a
             onClick={() => {
               dispatch({
-                type: 'user/updateUserForm',
+                type: 'customer/updateCustomerForm',
                 payload: { itemEdit: record, type: TYPE_FORM.UPDATE_PASSWORD },
               });
             }}
@@ -224,19 +208,19 @@ const UserList: React.FC = () => {
 
   return (
     <div>
-      <ProTable<UserItem>
+      <ProTable<CustomerItem>
         headerTitle={intl.formatMessage({
-          id: 'pages.Admin.User.UserList.headerTitle',
-          defaultMessage: 'Danh sách người dùng',
+          id: 'pages.Admin.Customer.CustomerList.headerTitle',
+          defaultMessage: 'Danh sách khách hàng',
         })}
         actionRef={actionRef}
         rowKey="id"
         sticky={true}
         pagination={{ ...PAGINATE_OPTIONS }}
         request={async (params, sort, filter) => {
-          return await queryUsers(params, sort, filter);
+          return await queryCustomers(params, sort, filter);
         }}
-        toolBarRender={() => [<CreateUser key="create-user" />]}
+        toolBarRender={() => [<CreateCustomer key="create-customer" />]}
         columns={columns}
         scroll={scrollTable}
       />
@@ -244,4 +228,4 @@ const UserList: React.FC = () => {
   );
 };
 
-export default UserList;
+export default CustomerList;

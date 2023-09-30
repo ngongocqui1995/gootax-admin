@@ -71,43 +71,43 @@ const Login: React.FC = () => {
           setting?.navTheme === 'realDark' ? '#000000' : initialState?.settings?.token?.bgLayout,
       },
       '.ant-pro-form-login-page-desc': {
-        color: setting?.colorPrimary,
+        color: setting?.colorPrimary || 'black',
       },
       '.title-login': {
         marginBottom: 10,
         textAlign: 'center',
-        color: setting?.colorPrimary,
+        color: setting?.colorPrimary || 'black',
       },
       '.ant-input-affix-wrapper': {
         backgroundColor: initialState?.settings?.token?.bgLayout,
         svg: {
-          color: setting?.colorPrimary,
+          color: setting?.colorPrimary || 'black',
         },
         input: {
           backgroundColor: `${initialState?.settings?.token?.bgLayout} !important`,
         },
       },
       '.remember-password': {
-        color: setting?.colorPrimary,
+        color: setting?.colorPrimary || 'black',
       },
       '.forget-password': {
-        color: setting?.colorPrimary,
+        color: setting?.colorPrimary || 'black',
         float: 'right',
       },
       '.ant-checkbox': {
         '.ant-checkbox-inner': {
-          backgroundColor: `${setting?.colorPrimary} !important`,
-          borderColor: `${setting?.colorPrimary} !important`,
+          backgroundColor: `${setting?.colorPrimary || 'black'} !important`,
+          borderColor: `${setting?.colorPrimary || 'black'} !important`,
         },
         '&:hover .ant-checkbox-inner': {
-          backgroundColor: `${setting?.colorPrimary} !important`,
+          backgroundColor: `${setting?.colorPrimary || 'black'} !important`,
           borderColor: `transparent !important`,
         },
       },
       '.btn-login': {
-        backgroundColor: setting?.colorPrimary,
+        backgroundColor: setting?.colorPrimary || 'black',
         '&:hover': {
-          backgroundColor: `${setting?.colorPrimary} !important`,
+          backgroundColor: `${setting?.colorPrimary || 'black'} !important`,
         },
       },
     };

@@ -61,6 +61,13 @@ export default [
         component: './Admin/User',
       },
       {
+        name: 'Customer',
+        icon: 'user',
+        path: '/admin/customers',
+        access: '/admin/customers',
+        component: './Admin/Customer',
+      },
+      {
         path: '/admin',
         redirect: '/admin/users',
       },
