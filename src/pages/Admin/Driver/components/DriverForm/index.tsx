@@ -107,14 +107,15 @@ const DriverForm: React.FC = () => {
   const renderTitle = () => {
     switch (driver.DriverForm?.type) {
       case TYPE_FORM.CREATE:
+      case TYPE_FORM.COPY:
         return intl.formatMessage({
           id: 'pages.Admin.Driver.DriverForm.Create.title',
-          defaultMessage: 'Thêm mới người dùng',
+          defaultMessage: 'Thêm mới tài xế',
         });
       case TYPE_FORM.UPDATE:
         return intl.formatMessage({
           id: 'pages.Admin.Driver.DriverForm.Update.title',
-          defaultMessage: 'Cập nhật người dùng',
+          defaultMessage: 'Cập nhật tài xế',
         });
       case TYPE_FORM.UPDATE_PASSWORD:
         return intl.formatMessage({
@@ -129,6 +130,7 @@ const DriverForm: React.FC = () => {
   const renderSubmitText = () => {
     switch (driver.DriverForm?.type) {
       case TYPE_FORM.CREATE:
+      case TYPE_FORM.COPY:
         return intl.formatMessage({
           id: 'pages.Admin.Driver.DriverForm.Create.submitText',
           defaultMessage: 'Tạo mới',

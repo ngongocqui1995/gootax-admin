@@ -8,7 +8,7 @@ import {
   UpdateDriver,
 } from './data';
 
-const keyword_params = 'name,phone,email';
+const keyword_params = 'name,phone';
 const join_params = {
   gender: [{ key: 'gender', condition: '$in' }],
 };
@@ -21,7 +21,7 @@ export async function queryDrivers(
   const res = await request({
     url: 'drivers',
     method: 'GET',
-    joins: joinConverter({ ...filter, ...params, join: 'role' }, join_params),
+    joins: joinConverter({ ...filter, ...params }, join_params),
     params: paramsConverter({ ...params }, join_params, keyword_params),
     sorts: sortConverter({ ...sort, updatedAt: 'descend' }),
   });

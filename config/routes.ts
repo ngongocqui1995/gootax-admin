@@ -75,6 +75,27 @@ export default [
         component: './Admin/Driver',
       },
       {
+        name: 'Province',
+        icon: 'user',
+        path: '/admin/provinces',
+        access: '/admin/provinces',
+        component: './Admin/Province',
+      },
+      {
+        name: 'District',
+        icon: 'user',
+        path: '/admin/districts',
+        access: '/admin/districts',
+        component: './Admin/District',
+      },
+      {
+        name: 'Ward',
+        icon: 'user',
+        path: '/admin/wards',
+        access: '/admin/wards',
+        component: './Admin/Ward',
+      },
+      {
         path: '/admin',
         redirect: '/admin/users',
       },

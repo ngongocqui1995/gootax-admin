@@ -22,7 +22,7 @@ export async function queryUsers(
   const res = await request({
     url: 'users',
     method: 'GET',
-    joins: joinConverter({ ...filter, ...params, join: 'role' }, join_params),
+    joins: joinConverter({ ...filter, ...params }, join_params),
     params: paramsConverter({ ...params }, join_params, keyword_params),
     sorts: sortConverter({ ...sort, updatedAt: 'descend' }),
   });

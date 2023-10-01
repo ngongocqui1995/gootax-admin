@@ -116,6 +116,7 @@ const UserForm: React.FC = () => {
   const renderTitle = () => {
     switch (user.UserForm?.type) {
       case TYPE_FORM.CREATE:
+      case TYPE_FORM.COPY:
         return intl.formatMessage({
           id: 'pages.Admin.User.UserForm.Create.title',
           defaultMessage: 'Thêm mới người dùng',
@@ -138,6 +139,7 @@ const UserForm: React.FC = () => {
   const renderSubmitText = () => {
     switch (user.UserForm?.type) {
       case TYPE_FORM.CREATE:
+      case TYPE_FORM.COPY:
         return intl.formatMessage({
           id: 'pages.Admin.User.UserForm.Create.submitText',
           defaultMessage: 'Tạo mới',

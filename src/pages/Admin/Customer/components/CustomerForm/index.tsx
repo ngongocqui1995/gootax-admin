@@ -107,14 +107,15 @@ const CustomerForm: React.FC = () => {
   const renderTitle = () => {
     switch (customer.CustomerForm?.type) {
       case TYPE_FORM.CREATE:
+      case TYPE_FORM.COPY:
         return intl.formatMessage({
           id: 'pages.Admin.Customer.CustomerForm.Create.title',
-          defaultMessage: 'Thêm mới người dùng',
+          defaultMessage: 'Thêm mới khách hàng',
         });
       case TYPE_FORM.UPDATE:
         return intl.formatMessage({
           id: 'pages.Admin.Customer.CustomerForm.Update.title',
-          defaultMessage: 'Cập nhật người dùng',
+          defaultMessage: 'Cập nhật khách hàng',
         });
       case TYPE_FORM.UPDATE_PASSWORD:
         return intl.formatMessage({
@@ -129,6 +130,7 @@ const CustomerForm: React.FC = () => {
   const renderSubmitText = () => {
     switch (customer.CustomerForm?.type) {
       case TYPE_FORM.CREATE:
+      case TYPE_FORM.COPY:
         return intl.formatMessage({
           id: 'pages.Admin.Customer.CustomerForm.Create.submitText',
           defaultMessage: 'Tạo mới',
