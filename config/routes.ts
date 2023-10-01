@@ -68,6 +68,13 @@ export default [
         component: './Admin/Customer',
       },
       {
+        name: 'Driver',
+        icon: 'user',
+        path: '/admin/drivers',
+        access: '/admin/drivers',
+        component: './Admin/Driver',
+      },
+      {
         path: '/admin',
         redirect: '/admin/users',
       },

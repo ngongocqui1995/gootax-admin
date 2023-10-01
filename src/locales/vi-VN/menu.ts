@@ -5,6 +5,7 @@ export default {
   'menu.admin.Menu': 'Quản lý Menu',
   'menu.admin.Permission': 'Quản lý Permission',
   'menu.admin.Customer': 'Quản lý khách hàng',
+  'menu.admin.Driver': 'Quản lý tài xế',
   'menu.login': 'Đăng nhập',
   'menu.system': 'Hệ thống',
   'menu.store': 'Cửa hàng',

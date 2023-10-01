@@ -1,9 +1,9 @@
 import { getSettingDrawer } from '@/utils/handler';
-import { regPhoneNumber, removeLocalStorage } from '@/utils/utils';
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { removeLocalStorage } from '@/utils/utils';
+import { LogoutOutlined } from '@ant-design/icons';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
 import { history, useModel } from '@umijs/max';
-import { Spin, message } from 'antd';
+import { Avatar, Spin, message } from 'antd';
 import { stringify } from 'querystring';
 import { MenuInfo } from 'rc-menu/lib/interface';
 import React, { useCallback } from 'react';
@@ -49,9 +49,8 @@ export const AvatarIcon = () => {
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState || {};
 
-  const isPhoneNumber = () => currentUser?.name && regPhoneNumber.test(currentUser?.name);
-
-  return isPhoneNumber() ? <UserOutlined /> : <>{currentUser?.name.charAt(0)}</>;
+  if (currentUser?.avatar) return <Avatar src={currentUser.avatar} />;
+  return <>{currentUser?.name?.charAt(0)}</>;
 };
 
 export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ children }) => {
