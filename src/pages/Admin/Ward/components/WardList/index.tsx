@@ -11,6 +11,7 @@ import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import React, { useEffect, useRef } from 'react';
 // @ts-ignore
 import Access from '@/components/Access';
+import { SelectDistrict, SelectProvince } from '@/components/ProForm';
 import { TYPE_FORM } from '@/utils/utils.enum';
 import { useDispatch, useIntl } from '@umijs/max';
 import { Tag, Tooltip } from 'antd';
@@ -53,14 +54,36 @@ const WardList: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.code', defaultMessage: 'Mã' }),
+      title: 'Tỉnh/Thành phố',
+      dataIndex: ['province', 'name'],
+      key: 'province',
+      width: 150,
+      fieldProps: { placeholder: 'Chọn tỉnh/thành phố' },
+      renderFormItem: () => {
+        return <SelectProvince noStyle rules={[]} />;
+      },
+      valueType: 'select',
+    },
+    {
+      title: 'Quận/Huyện',
+      dataIndex: ['district', 'name'],
+      key: 'district',
+      width: 150,
+      fieldProps: { placeholder: 'Chọn quận/huyện' },
+      renderFormItem: () => {
+        return <SelectDistrict noStyle rules={[]} />;
+      },
+      valueType: 'select',
+    },
+    {
+      title: 'Mã phường/xã',
       dataIndex: 'code',
       width: 120,
       search: false,
       renderText: (dom) => dom && <Tag color="default">{dom}</Tag>,
     },
     {
-      title: intl.formatMessage({ id: 'pages.name', defaultMessage: 'Tên' }),
+      title: 'Tên phường/xã',
       dataIndex: 'name',
       width: 150,
       search: false,
@@ -172,6 +195,9 @@ const WardList: React.FC = () => {
           id: 'pages.Admin.Ward.WardList.headerTitle',
           defaultMessage: 'Danh sách khách hàng',
         })}
+        search={{
+          layout: 'vertical',
+        }}
         actionRef={actionRef}
         rowKey="id"
         sticky={true}

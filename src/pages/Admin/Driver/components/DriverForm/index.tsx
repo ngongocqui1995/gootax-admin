@@ -173,6 +173,7 @@ const DriverForm: React.FC = () => {
 
             let res;
             switch (driver.DriverForm?.type) {
+              case TYPE_FORM.COPY:
               case TYPE_FORM.CREATE: {
                 res = await createDriver(body);
                 break;

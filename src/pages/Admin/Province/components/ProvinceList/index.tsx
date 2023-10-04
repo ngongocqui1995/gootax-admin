@@ -53,14 +53,14 @@ const ProvinceList: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.code', defaultMessage: 'Mã' }),
+      title: 'Mã Tỉnh/Thành phố',
       dataIndex: 'code',
       width: 120,
       search: false,
       renderText: (dom) => dom && <Tag color="default">{dom}</Tag>,
     },
     {
-      title: intl.formatMessage({ id: 'pages.name', defaultMessage: 'Tên' }),
+      title: 'Tên Tỉnh/Thành phố',
       dataIndex: 'name',
       width: 150,
       search: false,
@@ -172,6 +172,9 @@ const ProvinceList: React.FC = () => {
           id: 'pages.Admin.Province.ProvinceList.headerTitle',
           defaultMessage: 'Danh sách khách hàng',
         })}
+        search={{
+          layout: 'vertical',
+        }}
         actionRef={actionRef}
         rowKey="id"
         sticky={true}

@@ -182,6 +182,7 @@ const UserForm: React.FC = () => {
 
             let res;
             switch (user.UserForm?.type) {
+              case TYPE_FORM.COPY:
               case TYPE_FORM.CREATE: {
                 res = await createUser(body);
                 break;

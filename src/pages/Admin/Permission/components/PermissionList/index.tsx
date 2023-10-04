@@ -160,6 +160,9 @@ const PermissionList: React.FC = () => {
           id: 'pages.Admin.Permission.PermissionList.headerTitle',
           defaultMessage: 'Danh sách Permission',
         })}
+        search={{
+          layout: 'vertical',
+        }}
         actionRef={actionRef}
         rowKey="id"
         sticky={true}

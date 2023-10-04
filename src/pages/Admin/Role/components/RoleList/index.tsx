@@ -187,6 +187,9 @@ const RoleList: React.FC = () => {
           id: 'pages.Admin.Role.RoleList.headerTitle',
           defaultMessage: 'Danh sách role',
         })}
+        search={{
+          layout: 'vertical',
+        }}
         actionRef={actionRef}
         rowKey="id"
         sticky={true}

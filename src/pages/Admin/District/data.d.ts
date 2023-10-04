@@ -1,9 +1,11 @@
+import { ProvinceItem } from '../Province/data';
+
 export interface DistrictItem {
   createdAt: string;
   id: string;
   name: string;
   code: string;
-  province: string;
+  province: ProvinceItem;
   status: string;
   updatedAt: string;
 }

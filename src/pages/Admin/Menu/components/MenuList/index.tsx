@@ -169,6 +169,9 @@ const MenuList: React.FC = () => {
           id: 'pages.Admin.Menu.MenuList.headerTitle',
           defaultMessage: 'Danh sách Menu',
         })}
+        search={{
+          layout: 'vertical',
+        }}
         actionRef={actionRef}
         rowKey="id"
         sticky={true}

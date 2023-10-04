@@ -1,11 +1,14 @@
+import { DistrictItem } from '../District/data';
+import { ProvinceItem } from '../Province/data';
+
 export interface WardItem {
   createdAt: string;
   id: string;
   name: string;
   code: string;
   status: string;
-  province: string;
-  district: string;
+  province: ProvinceItem;
+  district: DistrictItem;
   updatedAt: string;
 }
 

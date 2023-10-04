@@ -1,10 +1,10 @@
 import { Card, Modal, Space } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 // @ts-ignore
-import { TextName } from '@/components/ProForm';
+import { SelectDistrict, SelectProvince, TextName } from '@/components/ProForm';
 import { getKeyFromString } from '@/utils/utils';
 import { TYPE_FORM } from '@/utils/utils.enum';
-import ProForm from '@ant-design/pro-form';
+import ProForm, { ProFormDependency } from '@ant-design/pro-form';
 import { useDispatch, useIntl, useSelector } from '@umijs/max';
 import { WardModalState } from '../../model';
 import { createWard, updateWard } from '../../service';
@@ -31,6 +31,8 @@ const WardForm: React.FC = () => {
         if ([TYPE_FORM.UPDATE, TYPE_FORM.COPY].includes(ward.WardForm?.type)) {
           form.setFieldsValue({
             ...ward.WardForm.itemEdit,
+            province: ward.WardForm.itemEdit?.province.id,
+            district: ward.WardForm.itemEdit?.district.id,
           });
         }
       }
@@ -42,6 +44,36 @@ const WardForm: React.FC = () => {
     if (!ward.WardForm?.type) return;
     return (
       <>
+        <SelectProvince
+          type={ward.WardForm?.type}
+          defaultOptions={[
+            {
+              value: ward.WardForm.itemEdit?.province.id || '',
+              label: ward.WardForm.itemEdit?.province.name || '',
+            },
+          ]}
+          fieldProps={{
+            onChange: () => {
+              form.setFieldsValue({ district: undefined });
+            },
+          }}
+        />
+        <ProFormDependency name={['province']}>
+          {({ province }) => {
+            return (
+              <SelectDistrict
+                params={{ province }}
+                type={ward.WardForm?.type}
+                defaultOptions={[
+                  {
+                    value: ward.WardForm?.itemEdit?.district.id || '',
+                    label: ward.WardForm?.itemEdit?.district.name || '',
+                  },
+                ]}
+              />
+            );
+          }}
+        </ProFormDependency>
         <TextName />
       </>
     );
@@ -90,7 +122,7 @@ const WardForm: React.FC = () => {
 
   return (
     <Modal
-      width={600}
+      width={800}
       title={renderTitle()}
       forceRender
       destroyOnClose
@@ -111,6 +143,7 @@ const WardForm: React.FC = () => {
 
             let res;
             switch (ward.WardForm?.type) {
+              case TYPE_FORM.COPY:
               case TYPE_FORM.CREATE: {
                 res = await createWard(body);
                 break;

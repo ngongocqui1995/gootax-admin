@@ -1,7 +1,7 @@
 import { Card, Modal, Space } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 // @ts-ignore
-import { TextName } from '@/components/ProForm';
+import { SelectProvince, TextName } from '@/components/ProForm';
 import { getKeyFromString } from '@/utils/utils';
 import { TYPE_FORM } from '@/utils/utils.enum';
 import ProForm from '@ant-design/pro-form';
@@ -31,6 +31,7 @@ const DistrictForm: React.FC = () => {
         if ([TYPE_FORM.UPDATE, TYPE_FORM.COPY].includes(district.DistrictForm?.type)) {
           form.setFieldsValue({
             ...district.DistrictForm.itemEdit,
+            province: district.DistrictForm.itemEdit?.province.id,
           });
         }
       }
@@ -42,6 +43,15 @@ const DistrictForm: React.FC = () => {
     if (!district.DistrictForm?.type) return;
     return (
       <>
+        <SelectProvince
+          type={district.DistrictForm.type}
+          defaultOptions={[
+            {
+              value: district.DistrictForm.itemEdit?.province.id || '',
+              label: district.DistrictForm.itemEdit?.province.name || '',
+            },
+          ]}
+        />
         <TextName />
       </>
     );
@@ -90,7 +100,7 @@ const DistrictForm: React.FC = () => {
 
   return (
     <Modal
-      width={600}
+      width={800}
       title={renderTitle()}
       forceRender
       destroyOnClose
@@ -111,6 +121,7 @@ const DistrictForm: React.FC = () => {
 
             let res;
             switch (district.DistrictForm?.type) {
+              case TYPE_FORM.COPY:
               case TYPE_FORM.CREATE: {
                 res = await createDistrict(body);
                 break;

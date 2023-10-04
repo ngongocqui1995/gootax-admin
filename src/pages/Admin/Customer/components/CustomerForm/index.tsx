@@ -173,6 +173,7 @@ const CustomerForm: React.FC = () => {
 
             let res;
             switch (customer.CustomerForm?.type) {
+              case TYPE_FORM.COPY:
               case TYPE_FORM.CREATE: {
                 res = await createCustomer(body);
                 break;

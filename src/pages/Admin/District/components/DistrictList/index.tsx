@@ -11,6 +11,7 @@ import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import React, { useEffect, useRef } from 'react';
 // @ts-ignore
 import Access from '@/components/Access';
+import { SelectProvince } from '@/components/ProForm';
 import { TYPE_FORM } from '@/utils/utils.enum';
 import { useDispatch, useIntl } from '@umijs/max';
 import { Tag, Tooltip } from 'antd';
@@ -53,14 +54,25 @@ const DistrictList: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.code', defaultMessage: 'Mã' }),
+      title: 'Tỉnh/Thành phố',
+      dataIndex: ['province', 'name'],
+      key: 'province',
+      width: 150,
+      fieldProps: { placeholder: 'Chọn tỉnh/thành phố' },
+      renderFormItem: () => {
+        return <SelectProvince noStyle rules={[]} />;
+      },
+      valueType: 'select',
+    },
+    {
+      title: 'Mã Quận/Huyện',
       dataIndex: 'code',
       width: 120,
       search: false,
       renderText: (dom) => dom && <Tag color="default">{dom}</Tag>,
     },
     {
-      title: intl.formatMessage({ id: 'pages.name', defaultMessage: 'Tên' }),
+      title: 'Tên Quận/Huyện',
       dataIndex: 'name',
       width: 150,
       search: false,
@@ -173,6 +185,9 @@ const DistrictList: React.FC = () => {
           defaultMessage: 'Danh sách khách hàng',
         })}
         actionRef={actionRef}
+        search={{
+          layout: 'vertical',
+        }}
         rowKey="id"
         sticky={true}
         pagination={{ ...PAGINATE_OPTIONS }}

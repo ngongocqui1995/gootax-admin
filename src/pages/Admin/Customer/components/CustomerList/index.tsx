@@ -213,6 +213,9 @@ const CustomerList: React.FC = () => {
           id: 'pages.Admin.Customer.CustomerList.headerTitle',
           defaultMessage: 'Danh sách khách hàng',
         })}
+        search={{
+          layout: 'vertical',
+        }}
         actionRef={actionRef}
         rowKey="id"
         sticky={true}

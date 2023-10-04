@@ -3,7 +3,10 @@ import { joinConverter, paramsConverter, removeParamsEmpty, sortConverter } from
 import { ChangeStatusWard, CreateWard, QueryWards, UpdateWard } from './data';
 
 const keyword_params = 'code,name';
-const join_params = {};
+const join_params = {
+  province: [{ key: 'province.id', condition: '$eq' }],
+  district: [{ key: 'district.id', condition: '$eq' }],
+};
 
 export async function queryWards(
   params: any,
@@ -13,7 +16,7 @@ export async function queryWards(
   const res = await request({
     url: 'wards',
     method: 'GET',
-    joins: joinConverter({ ...filter, ...params }, join_params),
+    joins: joinConverter({ ...filter, ...params, join: 'province,district' }, join_params),
     params: paramsConverter({ ...params }, join_params, keyword_params),
     sorts: sortConverter({ ...sort, updatedAt: 'descend' }),
   });

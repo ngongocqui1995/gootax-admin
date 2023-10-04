@@ -47,10 +47,11 @@
   ],
   "dependencies": {
     "@ant-design/icons": "^4.8.1",
-    "@ant-design/pro-components": "2.6.4",
+    "@ant-design/pro-components": "^2.6.4",
     "@ant-design/use-emotion-css": "1.0.4",
     "@lottiefiles/lottie-player": "^2.0.2",
     "@umijs/route-utils": "^2.2.2",
+    "ahooks": "^3.7.8",
     "antd": "^5.8.4",
     "antd-img-crop": "^4.13.0",
     "await-to-js": "^3.0.0",

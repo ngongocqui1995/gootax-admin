@@ -229,6 +229,9 @@ const UserList: React.FC = () => {
           id: 'pages.Admin.User.UserList.headerTitle',
           defaultMessage: 'Danh sách người dùng',
         })}
+        search={{
+          layout: 'vertical',
+        }}
         actionRef={actionRef}
         rowKey="id"
         sticky={true}

@@ -3,7 +3,9 @@ import { joinConverter, paramsConverter, removeParamsEmpty, sortConverter } from
 import { ChangeStatusDistrict, CreateDistrict, QueryDistricts, UpdateDistrict } from './data';
 
 const keyword_params = 'code,name';
-const join_params = {};
+const join_params = {
+  province: [{ key: 'province.id', condition: '$eq' }],
+};
 
 export async function queryDistricts(
   params: any,
@@ -13,7 +15,7 @@ export async function queryDistricts(
   const res = await request({
     url: 'districts',
     method: 'GET',
-    joins: joinConverter({ ...filter, ...params }, join_params),
+    joins: joinConverter({ ...filter, ...params, join: 'province' }, join_params),
     params: paramsConverter({ ...params }, join_params, keyword_params),
     sorts: sortConverter({ ...sort, updatedAt: 'descend' }),
   });

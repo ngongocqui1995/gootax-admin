@@ -111,6 +111,7 @@ const ProvinceForm: React.FC = () => {
 
             let res;
             switch (province.ProvinceForm?.type) {
+              case TYPE_FORM.COPY:
               case TYPE_FORM.CREATE: {
                 res = await createProvince(body);
                 break;

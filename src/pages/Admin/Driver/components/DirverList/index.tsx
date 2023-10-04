@@ -213,6 +213,9 @@ const DriverList: React.FC = () => {
           id: 'pages.Admin.Driver.DriverList.headerTitle',
           defaultMessage: 'Danh sách khách hàng',
         })}
+        search={{
+          layout: 'vertical',
+        }}
         actionRef={actionRef}
         rowKey="id"
         sticky={true}
