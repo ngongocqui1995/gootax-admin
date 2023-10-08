@@ -9,6 +9,7 @@ export { default as SelectMenu } from '@/components/ProForm/ProFormSelectMenu';
 export { default as SelectPermission } from '@/components/ProForm/ProFormSelectPermission';
 export { default as SelectProvince } from '@/components/ProForm/ProFormSelectProvince';
 export { default as SelectRole } from '@/components/ProForm/ProFormSelectRole';
+export { default as SelectTypeCar } from '@/components/ProForm/ProFormSelectTypeCar';
 export { default as SelectTypeMenu } from '@/components/ProForm/ProFormSelectTypeMenu';
 export { default as TextDescription } from '@/components/ProForm/ProFormTextDescription';
 export { default as TextEmail } from '@/components/ProForm/ProFormTextEmail';

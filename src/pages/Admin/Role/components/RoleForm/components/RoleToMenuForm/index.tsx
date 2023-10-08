@@ -58,10 +58,9 @@ const RoleToMenuForm: React.FC = () => {
               <SelectMenu
                 params={{
                   type,
-                  roles:
-                    role.MenuForm?.type === TYPE_FORM.UPDATE
-                      ? undefined
-                      : role.RoleForm?.itemEdit?.id,
+                  roles: [TYPE_FORM.UPDATE, TYPE_FORM.COPY].includes(role.MenuForm?.type)
+                    ? undefined
+                    : role.RoleForm?.itemEdit?.id,
                 }}
               />
             );

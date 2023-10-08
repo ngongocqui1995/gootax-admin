@@ -2,9 +2,9 @@ import { ProFormSelectProps } from '@ant-design/pro-form/lib/components/Select';
 import React from 'react';
 // @ts-ignore
 import ProSelectLoadMore from '@/components/ProSelectLoadMore';
-import { queryDistricts } from '@/pages/Admin/District/service';
+import { queryDistricts } from '@/pages/Area/District/service';
 import { I_TYPE_FORM } from '@/utils/interface';
-import { TYPE_FORM } from '@/utils/utils.enum';
+import { TYPE_FORM, statusEnum } from '@/utils/utils.enum';
 
 interface ProFormSelectDistrictProps extends ProFormSelectProps {
   defaultOptions?: { value: string; label: string }[];
@@ -29,7 +29,7 @@ const ProFormSelectDistrict: React.FC<ProFormSelectDistrictProps> = (props) => {
       defaultOptions={
         [TYPE_FORM.COPY, TYPE_FORM.UPDATE].includes(props.type) ? props.defaultOptions : []
       }
-      params={{ ...props.params }}
+      params={{ ...props.params, status: statusEnum.ACTIVE.key }}
       fieldProps={{
         placeholder: 'Chọn quận/huyện',
         ...props.fieldProps,
