@@ -1,30 +1,25 @@
-import { queryUsers } from '@/pages/Admin/User/service';
 import {
-  FALLBACK_STRING,
   PAGINATE_OPTIONS,
   getCopyTooltip,
-  getGenderEnum,
   getStatusEnum,
   getUpdatePasswordTooltip,
   getUpdateTooltip,
-  phoneFormatter,
   scrollTable,
 } from '@/utils/utils';
-import { CopyTwoTone, EditTwoTone, EyeOutlined, LockOutlined } from '@ant-design/icons';
+import { CopyTwoTone, EditTwoTone, LockOutlined } from '@ant-design/icons';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import React, { useEffect, useRef } from 'react';
 // @ts-ignore
 import Access from '@/components/Access';
-import { SelectRole } from '@/components/ProForm';
-import ChangeStatusUser from '@/pages/Admin/User/components/UserList/components/ChangeStatusUser';
-import CreateUser from '@/pages/Admin/User/components/UserList/components/ToolBar/CreateUser';
-import { UserItem } from '@/pages/Admin/User/data';
-import { SIZE_AVATAR, TYPE_FORM } from '@/utils/utils.enum';
-import styles from '@/utils/utils.less';
+import { TYPE_FORM } from '@/utils/utils.enum';
 import { useDispatch, useIntl } from '@umijs/max';
-import { Image, Tag, Tooltip } from 'antd';
+import { Tag, Tooltip } from 'antd';
+import { TypeCarItem } from '../../data';
+import { queryTypeCars } from '../../service';
+import ChangeStatusTypeCar from './components/ChangeStatusTypeCar';
+import CreateTypeCar from './components/ToolBar/CreateTypeCar';
 
-const UserList: React.FC = () => {
+const TypeCarList: React.FC = () => {
   const intl = useIntl();
   const actionRef = useRef<ActionType>();
   const dispatch = useDispatch();
@@ -32,93 +27,41 @@ const UserList: React.FC = () => {
 
   useEffect(() => {
     dispatch({
-      type: 'user/updateUserList',
+      type: 'type_car/updateTypeCarList',
       payload: {
         reload: () => actionRef.current?.reload(),
       },
     });
   }, []);
 
-  const columns: ProColumns<UserItem>[] = [
+  const columns: ProColumns<TypeCarItem>[] = [
     {
       title: intl.formatMessage({ id: 'pages.keyword', defaultMessage: 'Tìm theo' }),
       dataIndex: 'keyword',
       hideInTable: true,
       formItemProps: {
         tooltip: intl.formatMessage({
-          id: 'pages.Admin.User.UserList.tooltip',
-          defaultMessage: 'Bạn có thể tìm kiếm theo tên, email, số điện thoại.',
+          id: 'pages.Admin.TypeCar.TypeCarList.tooltip',
+          defaultMessage: 'Bạn có thể tìm kiếm theo tên.',
         }),
       },
       fieldProps: {
         placeholder: intl.formatMessage({
-          id: 'pages.Admin.User.UserList.placeholder',
-          defaultMessage: 'Nhập mã, tên, email, số điện thoại.',
+          id: 'pages.Admin.TypeCar.TypeCarList.placeholder',
+          defaultMessage: 'Nhập mã, tên.',
         }),
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.avatar', defaultMessage: 'Ảnh' }),
-      dataIndex: 'avatar',
+      title: intl.formatMessage({ id: 'pages.code', defaultMessage: 'Mã' }),
+      dataIndex: 'code',
       width: 120,
       search: false,
-      render: (_, record: UserItem) => {
-        return (
-          <a className={styles.avatar}>
-            <Image
-              placeholder={
-                <Image height={SIZE_AVATAR.height} src="error" fallback={FALLBACK_STRING} />
-              }
-              preview={{
-                mask: <EyeOutlined />,
-              }}
-              height={SIZE_AVATAR.height}
-              width={SIZE_AVATAR.width}
-              src={record?.avatar || ''}
-              fallback={FALLBACK_STRING}
-            />
-          </a>
-        );
-      },
+      renderText: (dom) => dom && <Tag color="default">{dom}</Tag>,
     },
     {
       title: intl.formatMessage({ id: 'pages.name', defaultMessage: 'Tên' }),
       dataIndex: 'name',
-      width: 150,
-      search: false,
-    },
-    {
-      title: intl.formatMessage({ id: 'pages.phone', defaultMessage: 'Số điện thoại' }),
-      dataIndex: 'phone',
-      width: 130,
-      renderText: (dom) => phoneFormatter(dom),
-      search: false,
-    },
-    {
-      title: intl.formatMessage({ id: 'pages.gender', defaultMessage: 'Giới tính' }),
-      dataIndex: 'gender',
-      fieldProps: {
-        placeholder: intl.formatMessage({
-          id: 'pages.gender.placeholder',
-          defaultMessage: 'Chọn giới tính.',
-        }),
-      },
-      width: 120,
-      valueType: 'select',
-      valueEnum: getGenderEnum(),
-    },
-    {
-      title: intl.formatMessage({ id: 'pages.role', defaultMessage: 'Role' }),
-      dataIndex: 'role',
-      renderFormItem: () => <SelectRole noStyle rules={[]} />,
-      width: 150,
-      renderText: (_, record: UserItem) => {
-        return record?.role?.id && <Tag color={record?.role?.color}>{record?.role?.name}</Tag>;
-      },
-    },
-    {
-      title: intl.formatMessage({ id: 'pages.email', defaultMessage: 'Email' }),
-      dataIndex: 'email',
       width: 150,
       search: false,
     },
@@ -142,8 +85,8 @@ const UserList: React.FC = () => {
       title: intl.formatMessage({ id: 'pages.status', defaultMessage: 'Trạng thái' }),
       dataIndex: 'status',
       width: 100,
-      renderText: (dom, record: UserItem) => {
-        return <ChangeStatusUser status={dom} record={record} />;
+      renderText: (dom, record: TypeCarItem) => {
+        return <ChangeStatusTypeCar status={dom} record={record} />;
       },
       fieldProps: {
         placeholder: intl.formatMessage({
@@ -166,7 +109,7 @@ const UserList: React.FC = () => {
       render: (_, record) => [
         <Tooltip
           className={`${access.className([TYPE_FORM.UPDATE])}`}
-          key="update-user"
+          key="update-type-car"
           title={getUpdateTooltip()}
           color="cyan"
           placement="left"
@@ -174,7 +117,7 @@ const UserList: React.FC = () => {
           <a
             onClick={() => {
               dispatch({
-                type: 'user/updateUserForm',
+                type: 'type_car/updateTypeCarForm',
                 payload: { itemEdit: record, type: TYPE_FORM.UPDATE },
               });
             }}
@@ -184,7 +127,7 @@ const UserList: React.FC = () => {
         </Tooltip>,
         <Tooltip
           className={`${access.className([TYPE_FORM.COPY])}`}
-          key="copy-user"
+          key="copy-type-car"
           title={getCopyTooltip()}
           color="cyan"
           placement="left"
@@ -192,7 +135,7 @@ const UserList: React.FC = () => {
           <a
             onClick={() => {
               dispatch({
-                type: 'user/updateUserForm',
+                type: 'type_car/updateTypeCarForm',
                 payload: { itemEdit: record, type: TYPE_FORM.COPY },
               });
             }}
@@ -202,7 +145,7 @@ const UserList: React.FC = () => {
         </Tooltip>,
         <Tooltip
           className={`${access.className([TYPE_FORM.UPDATE_PASSWORD])}`}
-          key="change-password-user"
+          key="change-password-type-car"
           title={getUpdatePasswordTooltip()}
           color="cyan"
           placement="left"
@@ -210,7 +153,7 @@ const UserList: React.FC = () => {
           <a
             onClick={() => {
               dispatch({
-                type: 'user/updateUserForm',
+                type: 'type_car/updateTypeCarForm',
                 payload: { itemEdit: record, type: TYPE_FORM.UPDATE_PASSWORD },
               });
             }}
@@ -224,10 +167,10 @@ const UserList: React.FC = () => {
 
   return (
     <div>
-      <ProTable<UserItem>
+      <ProTable<TypeCarItem>
         headerTitle={intl.formatMessage({
-          id: 'pages.Admin.User.UserList.headerTitle',
-          defaultMessage: 'Danh sách người dùng',
+          id: 'pages.Admin.TypeCar.TypeCarList.headerTitle',
+          defaultMessage: 'Danh sách khách hàng',
         })}
         search={{
           layout: 'vertical',
@@ -237,9 +180,9 @@ const UserList: React.FC = () => {
         sticky={true}
         pagination={{ ...PAGINATE_OPTIONS }}
         request={async (params, sort, filter) => {
-          return await queryUsers(params, sort, filter);
+          return await queryTypeCars(params, sort, filter);
         }}
-        toolBarRender={() => [<CreateUser key="create-user" />]}
+        toolBarRender={() => [<CreateTypeCar key="create-TypeCar" />]}
         columns={columns}
         scroll={scrollTable}
       />
@@ -247,4 +190,4 @@ const UserList: React.FC = () => {
   );
 };
 
-export default UserList;
+export default TypeCarList;

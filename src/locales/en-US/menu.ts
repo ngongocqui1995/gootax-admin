@@ -6,6 +6,7 @@ export default {
   'menu.admin.Permission': 'Permission Management',
   'menu.admin.Customer': 'Customer Management',
   'menu.admin.Driver': 'Driver Management',
+  'menu.admin.TypeCar': 'Type Car Management',
   'menu.admin.Province': 'Province Management',
   'menu.admin.District': 'District Management',
   'menu.admin.Ward': 'Ward Management',

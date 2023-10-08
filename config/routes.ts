@@ -75,6 +75,13 @@ export default [
         component: './Admin/Driver',
       },
       {
+        name: 'TypeCar',
+        icon: 'user',
+        path: '/admin/type-cars',
+        access: '/admin/type-cars',
+        component: './Admin/TypeCar',
+      },
+      {
         name: 'Province',
         icon: 'user',
         path: '/admin/provinces',

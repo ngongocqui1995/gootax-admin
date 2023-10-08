@@ -6,6 +6,7 @@ export default {
   'menu.admin.Permission': 'Quản lý Permission',
   'menu.admin.Customer': 'Quản lý khách hàng',
   'menu.admin.Driver': 'Quản lý tài xế',
+  'menu.admin.TypeCar': 'Quản lý loại xe',
   'menu.admin.Province': 'Quản lý Tỉnh/Thành phố',
   'menu.admin.District': 'Quản lý Quận/Huyện',
   'menu.admin.Ward': 'Quản lý Phường/Xã',
