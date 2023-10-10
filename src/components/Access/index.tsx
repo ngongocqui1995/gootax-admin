@@ -16,6 +16,7 @@ const Access = () => {
       | 'UPDATE_PASSWORD'
       | 'SYNC'
       | 'COPY'
+      | 'APPROVE'
     )[],
   ) => {
     if (
@@ -39,6 +40,7 @@ const Access = () => {
       | 'UPDATE_PASSWORD'
       | 'SYNC'
       | 'COPY'
+      | 'APPROVE'
     )[],
   ) => {
     if (
@@ -64,6 +66,7 @@ const Access = () => {
       | 'UPDATE_PASSWORD'
       | 'SYNC'
       | 'COPY'
+      | 'APPROVE'
     )[],
     pathname: string,
   ) => {

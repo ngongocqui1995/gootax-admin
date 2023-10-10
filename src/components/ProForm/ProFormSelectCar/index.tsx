@@ -24,7 +24,7 @@ const ProFormSelectCar: React.FC<ProFormSelectCarProps> = (props) => {
       ]}
       showSearch
       requestLoadMore={queryCars}
-      dataFilter={(data) => data.map((it) => ({ value: it?.id, label: it?.name }))}
+      dataFilter={(data) => data.map((it) => ({ value: it?.id, label: it?.name, item: it }))}
       {...props}
       defaultOptions={
         [TYPE_FORM.COPY, TYPE_FORM.UPDATE].includes(props.type) ? props.defaultOptions : []

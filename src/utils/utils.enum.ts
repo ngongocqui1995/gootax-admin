@@ -328,6 +328,7 @@ const statusAutoUploadEnum = {
 };
 
 const statusEnum = {
+  INIT: { text: 'Khởi tạo', key: 'INIT', id: 'pages.status.INIT' },
   ACTIVE: { text: 'Hoạt động', key: 'ACTIVE', id: 'pages.status.ACTIVE' },
   INACTIVE: { text: 'Không hoạt động', key: 'INACTIVE', id: 'pages.status.INACTIVE' },
 };
@@ -372,6 +373,7 @@ const TYPE_FORM: {
   CREATE_MANY: 'CREATE_MANY';
   UPDATE_STATUS: 'UPDATE_STATUS';
   UPDATE_PASSWORD: 'UPDATE_PASSWORD';
+  APPROVE: 'APPROVE';
 } = {
   CREATE: 'CREATE',
   UPDATE: 'UPDATE',
@@ -380,6 +382,7 @@ const TYPE_FORM: {
   CREATE_MANY: 'CREATE_MANY',
   UPDATE_STATUS: 'UPDATE_STATUS',
   UPDATE_PASSWORD: 'UPDATE_PASSWORD',
+  APPROVE: 'APPROVE',
 };
 
 const ActionType = {

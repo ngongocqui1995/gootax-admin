@@ -1,6 +1,7 @@
 import { DriverItem } from '@/pages/Admin/Driver/data';
 import { DriverModalState } from '@/pages/Admin/Driver/model';
 import { changeStatusDriver } from '@/pages/Admin/Driver/service';
+import { statusEnum } from '@/utils/utils.enum';
 import { useSelector } from '@umijs/max';
 import { Switch } from 'antd';
 import React from 'react';
@@ -18,6 +19,7 @@ const ChangeStatusDriver: React.FC<ChangeStatusDriverProps> = ({ status, record 
     if (res) driver.DriverList?.reload?.();
   };
 
+  if (status === statusEnum.INIT.key) return statusEnum.INIT.text;
   return <Switch checked={status === 'ACTIVE'} onChange={onChange} />;
 };
 

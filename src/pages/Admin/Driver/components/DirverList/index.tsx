@@ -21,6 +21,7 @@ import { useDispatch, useIntl } from '@umijs/max';
 import { Image, Tooltip } from 'antd';
 import { DriverItem } from '../../data';
 import { queryDrivers } from '../../service';
+import ApproveDriver from './component/ApproveDriver';
 import ChangeStatusDriver from './component/ChangeStatusDriver';
 import CreateDriver from './component/ToolBar/CreateDriver';
 
@@ -197,6 +198,15 @@ const DriverList: React.FC = () => {
       width: 90,
       hideInTable: !access.accessible([TYPE_FORM.UPDATE, TYPE_FORM.COPY]),
       render: (_, record) => [
+        <Tooltip
+          className={`${access.className([TYPE_FORM.APPROVE])}`}
+          key="approve-driver"
+          title="Nhấp vào để duyệt tài xế"
+          color="cyan"
+          placement="left"
+        >
+          <ApproveDriver record={record} />
+        </Tooltip>,
         <Tooltip
           className={`${access.className([TYPE_FORM.UPDATE])}`}
           key="update-driver"

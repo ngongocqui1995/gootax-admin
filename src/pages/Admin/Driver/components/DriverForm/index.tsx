@@ -11,7 +11,12 @@ import {
 } from '@/components/ProForm';
 import { ActionAvatar } from '@/components/ProForm/ProFormAvatar/data';
 import { TYPE_FORM } from '@/utils/utils.enum';
-import ProForm from '@ant-design/pro-form';
+import ProForm, {
+  ProFormDatePicker,
+  ProFormDependency,
+  ProFormDigit,
+  ProFormText,
+} from '@ant-design/pro-form';
 import { useDispatch, useIntl, useSelector } from '@umijs/max';
 import { DriverModalState } from '../../model';
 import { changePasswordDriver, createDriver, updateDriver } from '../../service';
@@ -41,6 +46,7 @@ const DriverForm: React.FC = () => {
           form.setFieldsValue({
             ...driver.DriverForm.itemEdit,
             car: driver.DriverForm.itemEdit?.car?.id,
+            car_info: driver.DriverForm.itemEdit?.car,
           });
           avatarRef.current?.setImageUrl(driver.DriverForm.itemEdit?.avatar || '');
         }
@@ -72,7 +78,35 @@ const DriverForm: React.FC = () => {
                   label: driver.DriverForm.itemEdit?.car?.name || '',
                 },
               ]}
+              fieldProps={{
+                onChange: (value, option: any) => {
+                  form.setFieldsValue({ car_info: option?.item });
+                },
+              }}
             />
+            <ProFormDependency name={['car']}>
+              {({ car }) => {
+                return (
+                  <Card hidden={!car} title="Thông tin xe">
+                    <ProFormText label="Hãng xe" disabled name={['car_info', 'company', 'name']} />
+                    <ProFormText label="Dòng xe" disabled name={['car_info', 'vehicle', 'name']} />
+                    <ProFormText
+                      label="Kiểu dáng xe"
+                      disabled
+                      name={['car_info', 'car_style', 'name']}
+                    />
+                    <ProFormText label="Loại xe" disabled name={['car_info', 'type_car', 'name']} />
+                    <ProFormDigit label="Số ghế ngồi" disabled name={['car_info', 'seat']} />
+                    <ProFormDatePicker
+                      label="Năm sản xuất"
+                      disabled
+                      name={['car_info', 'year']}
+                      fieldProps={{ picker: 'year', format: 'YYYY' }}
+                    />
+                  </Card>
+                );
+              }}
+            </ProFormDependency>
           </>
         )}
         {[TYPE_FORM.UPDATE_PASSWORD].includes(driver.DriverForm?.type) && (
@@ -163,7 +197,7 @@ const DriverForm: React.FC = () => {
 
   return (
     <Modal
-      width={600}
+      width={800}
       title={renderTitle()}
       forceRender
       destroyOnClose
@@ -181,6 +215,7 @@ const DriverForm: React.FC = () => {
               ...values,
               avatar: avatarRef.current?.getImageUrl(),
             };
+            delete body.car_info;
 
             let res;
             switch (driver.DriverForm?.type) {

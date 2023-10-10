@@ -2,7 +2,7 @@ import request from '@/utils/request';
 import { joinConverter, paramsConverter, removeParamsEmpty, sortConverter } from '@/utils/utils';
 import { ChangeStatusCar, CreateCar, QueryCars, UpdateCar } from './data';
 
-const keyword_params = 'code,name';
+const keyword_params = 'name';
 const join_params = {
   company: [{ key: 'company.id', condition: '$eq' }],
   car_style: [{ key: 'car_style.id', condition: '$eq' }],
