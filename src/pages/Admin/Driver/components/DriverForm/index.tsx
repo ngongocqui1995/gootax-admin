@@ -2,6 +2,7 @@ import { Card, Modal, Space } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 // @ts-ignore
 import {
+  SelectCar,
   SelectGender,
   TextName,
   TextPassword,
@@ -39,6 +40,7 @@ const DriverForm: React.FC = () => {
         if ([TYPE_FORM.UPDATE, TYPE_FORM.COPY].includes(driver.DriverForm?.type)) {
           form.setFieldsValue({
             ...driver.DriverForm.itemEdit,
+            car: driver.DriverForm.itemEdit?.car?.id,
           });
           avatarRef.current?.setImageUrl(driver.DriverForm.itemEdit?.avatar || '');
         }
@@ -61,6 +63,15 @@ const DriverForm: React.FC = () => {
               fieldProps={{
                 getPopupContainer: (node) => (modalRef && modalRef.current) || node.parentNode,
               }}
+            />
+            <SelectCar
+              type={driver.DriverForm.type}
+              defaultOptions={[
+                {
+                  value: driver.DriverForm.itemEdit?.car?.id || '',
+                  label: driver.DriverForm.itemEdit?.car?.name || '',
+                },
+              ]}
             />
           </>
         )}

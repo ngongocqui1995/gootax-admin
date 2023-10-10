@@ -193,7 +193,7 @@ const WardList: React.FC = () => {
       <ProTable<WardItem>
         headerTitle={intl.formatMessage({
           id: 'pages.Area.Ward.WardList.headerTitle',
-          defaultMessage: 'Danh sách khách hàng',
+          defaultMessage: 'Danh sách phường/xã',
         })}
         search={{
           layout: 'vertical',

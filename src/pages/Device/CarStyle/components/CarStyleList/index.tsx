@@ -53,14 +53,14 @@ const CarStyleList: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.code', defaultMessage: 'Mã' }),
+      title: 'Mã kiểu dáng',
       dataIndex: 'code',
       width: 120,
       search: false,
       renderText: (dom) => dom && <Tag color="default">{dom}</Tag>,
     },
     {
-      title: intl.formatMessage({ id: 'pages.name', defaultMessage: 'Tên' }),
+      title: 'Tên kiểu dáng',
       dataIndex: 'name',
       width: 150,
       search: false,
@@ -170,7 +170,7 @@ const CarStyleList: React.FC = () => {
       <ProTable<CarStyleItem>
         headerTitle={intl.formatMessage({
           id: 'pages.Device.CarStyle.CarStyleList.headerTitle',
-          defaultMessage: 'Danh sách khách hàng',
+          defaultMessage: 'Danh sách kiểu dáng xe',
         })}
         search={{
           layout: 'vertical',

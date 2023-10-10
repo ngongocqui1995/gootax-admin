@@ -13,6 +13,7 @@ export default {
   'menu.area.Ward': 'Quản lý Phường/Xã',
   'menu.device.TypeCar': 'Quản lý loại xe',
   'menu.device.CarStyle': 'Quản lý kiểu dáng xe',
+  'menu.device.Car': 'Quản lý xe',
   'menu.device.Company': 'Quản lý hãng xe',
   'menu.device.Vehicle': 'Quản lý dòng xe',
   'menu.login': 'Đăng nhập',

@@ -1,4 +1,5 @@
 import { RoleItem } from '@/pages/Admin/Role/data';
+import { CarItem } from '@/pages/Device/Car/data';
 
 export interface DriverItem {
   avatar: string;
@@ -10,6 +11,7 @@ export interface DriverItem {
   role: RoleItem;
   status: string;
   updatedAt: string;
+  car: CarItem;
 }
 
 export interface CreateDriver {
@@ -19,6 +21,7 @@ export interface CreateDriver {
   phone: string;
   password: string;
   role: string;
+  car: string;
 }
 
 export interface UpdateDriver {
@@ -27,6 +30,7 @@ export interface UpdateDriver {
   name: string;
   phone: string;
   role: string;
+  car: string;
 }
 
 export interface ChangePasswordDriver {

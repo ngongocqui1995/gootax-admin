@@ -11,6 +11,7 @@ import {
 const keyword_params = 'name,phone';
 const join_params = {
   gender: [{ key: 'gender', condition: '$in' }],
+  car: [{ key: 'car.id', condition: '$eq' }],
 };
 
 export async function queryDrivers(
@@ -21,7 +22,10 @@ export async function queryDrivers(
   const res = await request({
     url: 'drivers',
     method: 'GET',
-    joins: joinConverter({ ...filter, ...params, join: 'type_car' }, join_params),
+    joins: joinConverter(
+      { ...filter, ...params, join: 'car,car.company,car.car_style,car.vehicle,car.type_car' },
+      join_params,
+    ),
     params: paramsConverter({ ...params }, join_params, keyword_params),
     sorts: sortConverter({ ...sort, updatedAt: 'descend' }),
   });

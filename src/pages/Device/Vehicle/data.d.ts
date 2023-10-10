@@ -1,8 +1,11 @@
+import { CompanyItem } from '../Company/data';
+
 export interface VehicleItem {
   createdAt: string;
   id: string;
   code: string;
   name: string;
+  company: CompanyItem;
   status: string;
   updatedAt: string;
 }

@@ -58,12 +58,12 @@ const CarStyleForm: React.FC = () => {
       case TYPE_FORM.COPY:
         return intl.formatMessage({
           id: 'pages.Device.CarStyle.CarStyleForm.Create.title',
-          defaultMessage: 'Thêm mới tài xế',
+          defaultMessage: 'Thêm mới kiểu dáng xe',
         });
       case TYPE_FORM.UPDATE:
         return intl.formatMessage({
           id: 'pages.Device.CarStyle.CarStyleForm.Update.title',
-          defaultMessage: 'Cập nhật tài xế',
+          defaultMessage: 'Cập nhật kiểu dáng xe',
         });
       default:
         return '';

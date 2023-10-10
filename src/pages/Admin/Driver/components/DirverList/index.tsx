@@ -14,6 +14,7 @@ import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import React, { useEffect, useRef } from 'react';
 // @ts-ignore
 import Access from '@/components/Access';
+import { SelectCar } from '@/components/ProForm';
 import { SIZE_AVATAR, TYPE_FORM } from '@/utils/utils.enum';
 import styles from '@/utils/utils.less';
 import { useDispatch, useIntl } from '@umijs/max';
@@ -105,6 +106,54 @@ const DriverList: React.FC = () => {
       width: 120,
       valueType: 'select',
       valueEnum: getGenderEnum(),
+    },
+    {
+      title: 'Xe',
+      dataIndex: ['car', 'name'],
+      key: 'car',
+      width: 150,
+      fieldProps: { placeholder: 'Chọn xe' },
+      renderFormItem: () => {
+        return <SelectCar noStyle rules={[]} />;
+      },
+      valueType: 'select',
+    },
+    {
+      title: 'Hãng xe',
+      dataIndex: ['car', 'company', 'name'],
+      width: 150,
+      search: false,
+    },
+    {
+      title: 'Dòng xe',
+      dataIndex: ['car', 'vehicle', 'name'],
+      width: 150,
+      search: false,
+    },
+    {
+      title: 'Kiểu dáng xe',
+      dataIndex: ['car', 'car_style', 'name'],
+      width: 150,
+      search: false,
+    },
+    {
+      title: 'Loại xe',
+      dataIndex: ['car', 'type_car', 'name'],
+      width: 150,
+      search: false,
+    },
+    {
+      title: 'Số ghế ngồi',
+      dataIndex: ['car', 'seat'],
+      width: 150,
+      search: false,
+    },
+    {
+      title: 'Năm sản xuất xe',
+      dataIndex: ['car', 'year'],
+      width: 150,
+      valueType: 'dateYear',
+      search: false,
     },
     {
       title: intl.formatMessage({ id: 'pages.createdAt', defaultMessage: 'Ngày tạo' }),
@@ -211,7 +260,7 @@ const DriverList: React.FC = () => {
       <ProTable<DriverItem>
         headerTitle={intl.formatMessage({
           id: 'pages.Admin.Driver.DriverList.headerTitle',
-          defaultMessage: 'Danh sách khách hàng',
+          defaultMessage: 'Danh sách tài xế',
         })}
         search={{
           layout: 'vertical',

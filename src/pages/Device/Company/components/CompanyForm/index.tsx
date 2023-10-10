@@ -58,12 +58,12 @@ const CompanyForm: React.FC = () => {
       case TYPE_FORM.COPY:
         return intl.formatMessage({
           id: 'pages.Device.Company.CompanyForm.Create.title',
-          defaultMessage: 'Thêm mới tài xế',
+          defaultMessage: 'Thêm mới hãng xe',
         });
       case TYPE_FORM.UPDATE:
         return intl.formatMessage({
           id: 'pages.Device.Company.CompanyForm.Update.title',
-          defaultMessage: 'Cập nhật tài xế',
+          defaultMessage: 'Cập nhật hãng xe',
         });
       default:
         return '';

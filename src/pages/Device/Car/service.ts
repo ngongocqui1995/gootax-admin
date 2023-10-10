@@ -1,21 +1,23 @@
 import request from '@/utils/request';
 import { joinConverter, paramsConverter, removeParamsEmpty, sortConverter } from '@/utils/utils';
-import { ChangeStatusVehicle, CreateVehicle, QueryVehicles, UpdateVehicle } from './data';
+import { ChangeStatusCar, CreateCar, QueryCars, UpdateCar } from './data';
 
 const keyword_params = 'code,name';
 const join_params = {
   company: [{ key: 'company.id', condition: '$eq' }],
+  car_style: [{ key: 'car_style.id', condition: '$eq' }],
+  vehicle: [{ key: 'vehicle.id', condition: '$eq' }],
+  type_car: [{ key: 'type_car.id', condition: '$eq' }],
 };
 
-export async function queryVehicles(
-  params: any,
-  sort: any = {},
-  filter: any = {},
-): Promise<QueryVehicles> {
+export async function queryCars(params: any, sort: any = {}, filter: any = {}): Promise<QueryCars> {
   const res = await request({
-    url: 'vehicles',
+    url: 'cars',
     method: 'GET',
-    joins: joinConverter({ ...filter, ...params, join: 'company' }, join_params),
+    joins: joinConverter(
+      { ...filter, ...params, join: 'company,car_style,vehicle,type_car' },
+      join_params,
+    ),
     params: paramsConverter({ ...params }, join_params, keyword_params),
     sorts: sortConverter({ ...sort, updatedAt: 'descend' }),
   });
@@ -26,28 +28,25 @@ export async function queryVehicles(
   };
 }
 
-export async function createVehicle(body: CreateVehicle) {
+export async function createCar(body: CreateCar) {
   return await request({
-    url: `vehicles`,
+    url: `cars`,
     method: 'POST',
     body: removeParamsEmpty(body),
   });
 }
 
-export async function updateVehicle(id: string, body: UpdateVehicle) {
+export async function updateCar(id: string, body: UpdateCar) {
   return await request({
-    url: `vehicles/${id}`,
+    url: `cars/${id}`,
     method: 'PATCH',
     body: removeParamsEmpty(body),
   });
 }
 
-export async function changeStatusVehicle(
-  id: string,
-  status: string,
-): Promise<ChangeStatusVehicle> {
+export async function changeStatusCar(id: string, status: string): Promise<ChangeStatusCar> {
   return await request({
-    url: `vehicles/status/${id}`,
+    url: `cars/status/${id}`,
     method: 'PUT',
     body: { status },
   });

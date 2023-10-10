@@ -170,7 +170,7 @@ const ProvinceList: React.FC = () => {
       <ProTable<ProvinceItem>
         headerTitle={intl.formatMessage({
           id: 'pages.Area.Province.ProvinceList.headerTitle',
-          defaultMessage: 'Danh sách khách hàng',
+          defaultMessage: 'Danh sách tỉnh/thành phố',
         })}
         search={{
           layout: 'vertical',

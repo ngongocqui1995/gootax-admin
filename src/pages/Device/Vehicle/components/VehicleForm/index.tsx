@@ -1,7 +1,7 @@
 import { Card, Modal, Space } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 // @ts-ignore
-import { TextName } from '@/components/ProForm';
+import { SelectCompany, TextName } from '@/components/ProForm';
 import { getKeyFromString } from '@/utils/utils';
 import { TYPE_FORM } from '@/utils/utils.enum';
 import ProForm from '@ant-design/pro-form';
@@ -31,6 +31,7 @@ const VehicleForm: React.FC = () => {
         if ([TYPE_FORM.UPDATE, TYPE_FORM.COPY].includes(vehicle.VehicleForm?.type)) {
           form.setFieldsValue({
             ...vehicle.VehicleForm.itemEdit,
+            company: vehicle.VehicleForm.itemEdit?.company?.id,
           });
         }
       }
@@ -42,6 +43,15 @@ const VehicleForm: React.FC = () => {
     if (!vehicle.VehicleForm?.type) return;
     return (
       <>
+        <SelectCompany
+          type={vehicle.VehicleForm.type}
+          defaultOptions={[
+            {
+              value: vehicle.VehicleForm.itemEdit?.company?.id || '',
+              label: vehicle.VehicleForm.itemEdit?.company?.name || '',
+            },
+          ]}
+        />
         <TextName />
       </>
     );
@@ -58,12 +68,12 @@ const VehicleForm: React.FC = () => {
       case TYPE_FORM.COPY:
         return intl.formatMessage({
           id: 'pages.Device.Vehicle.VehicleForm.Create.title',
-          defaultMessage: 'Thêm mới tài xế',
+          defaultMessage: 'Thêm mới dòng xe',
         });
       case TYPE_FORM.UPDATE:
         return intl.formatMessage({
           id: 'pages.Device.Vehicle.VehicleForm.Update.title',
-          defaultMessage: 'Cập nhật tài xế',
+          defaultMessage: 'Cập nhật dòng xe',
         });
       default:
         return '';

@@ -182,7 +182,7 @@ const DistrictList: React.FC = () => {
       <ProTable<DistrictItem>
         headerTitle={intl.formatMessage({
           id: 'pages.Area.District.DistrictList.headerTitle',
-          defaultMessage: 'Danh sách khách hàng',
+          defaultMessage: 'Danh sách quận/huyện',
         })}
         actionRef={actionRef}
         search={{

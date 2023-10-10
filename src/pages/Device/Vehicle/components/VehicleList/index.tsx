@@ -11,6 +11,7 @@ import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import React, { useEffect, useRef } from 'react';
 // @ts-ignore
 import Access from '@/components/Access';
+import { SelectCompany } from '@/components/ProForm';
 import { TYPE_FORM } from '@/utils/utils.enum';
 import { useDispatch, useIntl } from '@umijs/max';
 import { Tag, Tooltip } from 'antd';
@@ -53,14 +54,25 @@ const VehicleList: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.code', defaultMessage: 'Mã' }),
+      title: 'Hãng xe',
+      dataIndex: ['company', 'name'],
+      key: 'company',
+      width: 150,
+      fieldProps: { placeholder: 'Chọn hãng xe' },
+      renderFormItem: () => {
+        return <SelectCompany noStyle rules={[]} />;
+      },
+      valueType: 'select',
+    },
+    {
+      title: 'Mã dòng xe',
       dataIndex: 'code',
       width: 120,
       search: false,
       renderText: (dom) => dom && <Tag color="default">{dom}</Tag>,
     },
     {
-      title: intl.formatMessage({ id: 'pages.name', defaultMessage: 'Tên' }),
+      title: 'Tên dòng xe',
       dataIndex: 'name',
       width: 150,
       search: false,
@@ -170,7 +182,7 @@ const VehicleList: React.FC = () => {
       <ProTable<VehicleItem>
         headerTitle={intl.formatMessage({
           id: 'pages.Device.Vehicle.VehicleList.headerTitle',
-          defaultMessage: 'Danh sách khách hàng',
+          defaultMessage: 'Danh sách kiểu dáng xe',
         })}
         search={{
           layout: 'vertical',

@@ -12,6 +12,7 @@ export default {
   'menu.area.District': 'District Management',
   'menu.area.Ward': 'Ward Management',
   'menu.device.TypeCar': 'Type Car Management',
+  'menu.device.Car': 'Car Management',
   'menu.device.CarStyle': 'Car Style Management',
   'menu.device.Company': 'Car Company Management',
   'menu.device.Vehicle': 'Car Vehicle Management',

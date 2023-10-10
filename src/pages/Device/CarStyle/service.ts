@@ -11,7 +11,7 @@ export async function queryCarStyles(
   filter: any = {},
 ): Promise<QueryCarStyles> {
   const res = await request({
-    url: 'type-cars',
+    url: 'car-style',
     method: 'GET',
     joins: joinConverter({ ...filter, ...params }, join_params),
     params: paramsConverter({ ...params }, join_params, keyword_params),

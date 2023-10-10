@@ -53,14 +53,14 @@ const CompanyList: React.FC = () => {
       },
     },
     {
-      title: intl.formatMessage({ id: 'pages.code', defaultMessage: 'Mã' }),
+      title: 'Mã hãng xe',
       dataIndex: 'code',
       width: 120,
       search: false,
       renderText: (dom) => dom && <Tag color="default">{dom}</Tag>,
     },
     {
-      title: intl.formatMessage({ id: 'pages.name', defaultMessage: 'Tên' }),
+      title: 'Tên hãng xe',
       dataIndex: 'name',
       width: 150,
       search: false,
@@ -170,7 +170,7 @@ const CompanyList: React.FC = () => {
       <ProTable<CompanyItem>
         headerTitle={intl.formatMessage({
           id: 'pages.Device.Company.CompanyList.headerTitle',
-          defaultMessage: 'Danh sách khách hàng',
+          defaultMessage: 'Danh sách hãng xe',
         })}
         search={{
           layout: 'vertical',

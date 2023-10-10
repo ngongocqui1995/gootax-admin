@@ -147,6 +147,13 @@ export default [
         access: '/device/type-cars',
         component: './Device/TypeCar',
       },
+      {
+        name: 'Car',
+        icon: 'user',
+        path: '/device/cars',
+        access: '/device/cars',
+        component: './Device/Car',
+      },
     ],
   },
   {
