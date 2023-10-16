@@ -1,22 +1,23 @@
 import request from '@/utils/request';
 import { joinConverter, paramsConverter, removeParamsEmpty, sortConverter } from '@/utils/utils';
-import { ChangeStatusWard, CreateWard, QueryWards, UpdateWard } from './data';
+import { ChangeStatusRoad, CreateRoad, QueryRoads, UpdateRoad } from './data';
 
-const keyword_params = 'name';
+const keyword_params = 'code,name';
 const join_params = {
   province: [{ key: 'province.id', condition: '$eq' }],
   district: [{ key: 'district.id', condition: '$eq' }],
+  ward: [{ key: 'ward.id', condition: '$eq' }],
 };
 
-export async function queryWards(
+export async function queryRoads(
   params: any,
   sort: any = {},
   filter: any = {},
-): Promise<QueryWards> {
+): Promise<QueryRoads> {
   const res = await request({
-    url: 'wards',
+    url: 'roads',
     method: 'GET',
-    joins: joinConverter({ ...filter, ...params, join: 'province,district' }, join_params),
+    joins: joinConverter({ ...filter, ...params, join: 'province,district,ward' }, join_params),
     params: paramsConverter({ ...params }, join_params, keyword_params),
     sorts: sortConverter({ ...sort, updatedAt: 'descend' }),
   });
@@ -27,25 +28,25 @@ export async function queryWards(
   };
 }
 
-export async function createWard(body: CreateWard) {
+export async function createRoad(body: CreateRoad) {
   return await request({
-    url: `wards`,
+    url: `roads`,
     method: 'POST',
     body: removeParamsEmpty(body),
   });
 }
 
-export async function updateWard(id: string, body: UpdateWard) {
+export async function updateRoad(id: string, body: UpdateRoad) {
   return await request({
-    url: `wards/${id}`,
+    url: `roads/${id}`,
     method: 'PATCH',
     body: removeParamsEmpty(body),
   });
 }
 
-export async function changeStatusWard(id: string, status: string): Promise<ChangeStatusWard> {
+export async function changeStatusRoad(id: string, status: string): Promise<ChangeStatusRoad> {
   return await request({
-    url: `wards/status/${id}`,
+    url: `roads/status/${id}`,
     method: 'PUT',
     body: { status },
   });

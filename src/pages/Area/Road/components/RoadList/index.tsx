@@ -11,17 +11,17 @@ import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import React, { useEffect, useRef } from 'react';
 // @ts-ignore
 import Access from '@/components/Access';
-import { SelectDistrict, SelectProvince } from '@/components/ProForm';
+import { SelectDistrict, SelectProvince, SelectWard } from '@/components/ProForm';
 import { TYPE_FORM } from '@/utils/utils.enum';
 import { ProFormDependency } from '@ant-design/pro-components';
 import { useDispatch, useIntl } from '@umijs/max';
 import { Tag, Tooltip } from 'antd';
-import { WardItem } from '../../data';
-import { queryWards } from '../../service';
-import ChangeStatusWard from './components/ChangeStatusWard';
-import CreateWard from './components/ToolBar/CreateWard';
+import { RoadItem } from '../../data';
+import { queryRoads } from '../../service';
+import ChangeStatusRoad from './components/ChangeStatusRoad';
+import CreateRoad from './components/ToolBar/CreateRoad';
 
-const WardList: React.FC = () => {
+const RoadList: React.FC = () => {
   const intl = useIntl();
   const actionRef = useRef<ActionType>();
   const dispatch = useDispatch();
@@ -29,28 +29,28 @@ const WardList: React.FC = () => {
 
   useEffect(() => {
     dispatch({
-      type: 'ward/updateWardList',
+      type: 'road/updateRoadList',
       payload: {
         reload: () => actionRef.current?.reload(),
       },
     });
   }, []);
 
-  const columns: ProColumns<WardItem>[] = [
+  const columns: ProColumns<RoadItem>[] = [
     {
       title: intl.formatMessage({ id: 'pages.keyword', defaultMessage: 'Tìm theo' }),
       dataIndex: 'keyword',
       hideInTable: true,
       formItemProps: {
         tooltip: intl.formatMessage({
-          id: 'pages.Area.Ward.WardList.tooltip',
-          defaultMessage: 'Bạn có thể tìm kiếm theo tên, số điện thoại.',
+          id: 'pages.Area.Road.RoadList.tooltip',
+          defaultMessage: 'Bạn có thể tìm kiếm theo tên.',
         }),
       },
       fieldProps: {
         placeholder: intl.formatMessage({
-          id: 'pages.Area.Ward.WardList.placeholder',
-          defaultMessage: 'Nhập mã, tên, số điện thoại.',
+          id: 'pages.Area.Road.RoadList.placeholder',
+          defaultMessage: 'Nhập mã, tên.',
         }),
       },
     },
@@ -67,7 +67,7 @@ const WardList: React.FC = () => {
             rules={[]}
             fieldProps={{
               onChange: () => {
-                form.setFieldsValue({ district: undefined });
+                form.setFieldsValue({ district: undefined, ward: undefined });
               },
             }}
           />
@@ -81,10 +81,38 @@ const WardList: React.FC = () => {
       key: 'district',
       width: 150,
       fieldProps: { placeholder: 'Chọn quận/huyện' },
-      renderFormItem: () => {
+      renderFormItem: (_, __, form) => {
         return (
           <ProFormDependency name={['province']}>
-            {({ province }) => <SelectDistrict params={{ province }} noStyle rules={[]} />}
+            {({ province }) => (
+              <SelectDistrict
+                params={{ province }}
+                noStyle
+                rules={[]}
+                fieldProps={{
+                  onChange: () => {
+                    form.setFieldsValue({ ward: undefined });
+                  },
+                }}
+              />
+            )}
+          </ProFormDependency>
+        );
+      },
+      valueType: 'select',
+    },
+    {
+      title: 'Phường/Xã',
+      dataIndex: ['ward', 'name'],
+      key: 'ward',
+      width: 150,
+      fieldProps: { placeholder: 'Chọn phường/xã' },
+      renderFormItem: () => {
+        return (
+          <ProFormDependency name={['province', 'district']}>
+            {({ province, district }) => (
+              <SelectWard params={{ province, district }} noStyle rules={[]} />
+            )}
           </ProFormDependency>
         );
       },
@@ -123,8 +151,8 @@ const WardList: React.FC = () => {
       title: intl.formatMessage({ id: 'pages.status', defaultMessage: 'Trạng thái' }),
       dataIndex: 'status',
       width: 100,
-      renderText: (dom, record: WardItem) => {
-        return <ChangeStatusWard status={dom} record={record} />;
+      renderText: (dom, record: RoadItem) => {
+        return <ChangeStatusRoad status={dom} record={record} />;
       },
       fieldProps: {
         placeholder: intl.formatMessage({
@@ -147,7 +175,7 @@ const WardList: React.FC = () => {
       render: (_, record) => [
         <Tooltip
           className={`${access.className([TYPE_FORM.UPDATE])}`}
-          key="update-ward"
+          key="update-road"
           title={getUpdateTooltip()}
           color="cyan"
           placement="left"
@@ -155,7 +183,7 @@ const WardList: React.FC = () => {
           <a
             onClick={() => {
               dispatch({
-                type: 'ward/updateWardForm',
+                type: 'road/updateRoadForm',
                 payload: { itemEdit: record, type: TYPE_FORM.UPDATE },
               });
             }}
@@ -165,7 +193,7 @@ const WardList: React.FC = () => {
         </Tooltip>,
         <Tooltip
           className={`${access.className([TYPE_FORM.COPY])}`}
-          key="copy-ward"
+          key="copy-road"
           title={getCopyTooltip()}
           color="cyan"
           placement="left"
@@ -173,7 +201,7 @@ const WardList: React.FC = () => {
           <a
             onClick={() => {
               dispatch({
-                type: 'ward/updateWardForm',
+                type: 'road/updateRoadForm',
                 payload: { itemEdit: record, type: TYPE_FORM.COPY },
               });
             }}
@@ -183,7 +211,7 @@ const WardList: React.FC = () => {
         </Tooltip>,
         <Tooltip
           className={`${access.className([TYPE_FORM.UPDATE_PASSWORD])}`}
-          key="change-password-ward"
+          key="change-password-road"
           title={getUpdatePasswordTooltip()}
           color="cyan"
           placement="left"
@@ -191,7 +219,7 @@ const WardList: React.FC = () => {
           <a
             onClick={() => {
               dispatch({
-                type: 'ward/updateWardForm',
+                type: 'road/updateRoadForm',
                 payload: { itemEdit: record, type: TYPE_FORM.UPDATE_PASSWORD },
               });
             }}
@@ -205,10 +233,10 @@ const WardList: React.FC = () => {
 
   return (
     <div>
-      <ProTable<WardItem>
+      <ProTable<RoadItem>
         headerTitle={intl.formatMessage({
-          id: 'pages.Area.Ward.WardList.headerTitle',
-          defaultMessage: 'Danh sách phường/xã',
+          id: 'pages.Area.Road.RoadList.headerTitle',
+          defaultMessage: 'Danh sách đường',
         })}
         search={{
           layout: 'vertical',
@@ -218,9 +246,9 @@ const WardList: React.FC = () => {
         sticky={true}
         pagination={{ ...PAGINATE_OPTIONS }}
         request={async (params, sort, filter) => {
-          return await queryWards(params, sort, filter);
+          return await queryRoads(params, sort, filter);
         }}
-        toolBarRender={() => [<CreateWard key="create-ward" />]}
+        toolBarRender={() => [<CreateRoad key="create-road" />]}
         columns={columns}
         scroll={scrollTable}
       />
@@ -228,4 +256,4 @@ const WardList: React.FC = () => {
   );
 };
 
-export default WardList;
+export default RoadList;

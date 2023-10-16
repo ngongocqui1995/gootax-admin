@@ -134,6 +134,7 @@ export const paramsConverter = (
 ): object => {
   const newObj: any = {};
   const keywords: any = [];
+  const searchAnd: any = [];
   if (!params) return newObj;
 
   lodash.forOwn(params, (value, key) => {
@@ -141,6 +142,12 @@ export const paramsConverter = (
     if (key === 'pageSize') newObj.limit = value;
     if (key === 'join') newObj.join = value;
     if (value && !join_params[key]) newObj[key] = value;
+
+    if (join_params[key] && Array.isArray(join_params[key])) {
+      join_params[key].forEach((it: { condition: string; key: string; joinWith: string }) => {
+        searchAnd.push({ [it.key]: { [it.condition]: value } });
+      });
+    }
   });
 
   if (params['keyword']) {
@@ -151,7 +158,7 @@ export const paramsConverter = (
   }
 
   if (keywords.length > 0) {
-    newObj['s'] = { $or: keywords };
+    newObj['s'] = { $and: [...searchAnd, { $or: keywords }] };
   }
   return newObj;
 };

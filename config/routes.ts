@@ -75,6 +75,13 @@ export default [
         component: './Admin/Driver',
       },
       {
+        name: 'BookCar',
+        icon: 'user',
+        path: '/admin/book-cars',
+        access: '/admin/book-cars',
+        component: './Admin/BookCar',
+      },
+      {
         path: '/admin',
         redirect: '/admin/users',
       },
@@ -106,6 +113,13 @@ export default [
         path: '/area/wards',
         access: '/area/wards',
         component: './Area/Ward',
+      },
+      {
+        name: 'Road',
+        icon: 'user',
+        path: '/area/roads',
+        access: '/area/roads',
+        component: './Area/Road',
       },
       {
         path: '/area',

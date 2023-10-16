@@ -18,3 +18,7 @@ declare module 'react-fittext';
 declare module 'bizcharts-plugin-slider';
 
 declare const REACT_APP_ENV: 'test' | 'dev' | 'pre' | false;
+
+declare const SERVER_API: string;
+
+declare const GOOGLE_MAPS_APIKEY: string;

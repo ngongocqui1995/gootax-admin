@@ -4,6 +4,7 @@ import {
   getStatusEnum,
   getUpdatePasswordTooltip,
   getUpdateTooltip,
+  phoneFormatter,
   scrollTable,
 } from '@/utils/utils';
 import { CopyTwoTone, EditTwoTone, LockOutlined } from '@ant-design/icons';
@@ -11,17 +12,16 @@ import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import React, { useEffect, useRef } from 'react';
 // @ts-ignore
 import Access from '@/components/Access';
-import { SelectDistrict, SelectProvince } from '@/components/ProForm';
+import { SelectTypeCar } from '@/components/ProForm';
 import { TYPE_FORM } from '@/utils/utils.enum';
-import { ProFormDependency } from '@ant-design/pro-components';
 import { useDispatch, useIntl } from '@umijs/max';
-import { Tag, Tooltip } from 'antd';
-import { WardItem } from '../../data';
-import { queryWards } from '../../service';
-import ChangeStatusWard from './components/ChangeStatusWard';
-import CreateWard from './components/ToolBar/CreateWard';
+import { Tooltip } from 'antd';
+import { BookCarItem } from '../../data';
+import { queryBookCars } from '../../service';
+import ChangeStatusBookCar from './components/ChangeStatusBookCar';
+import CreateBookCar from './components/ToolBar/CreateBookCar';
 
-const WardList: React.FC = () => {
+const BookCarList: React.FC = () => {
   const intl = useIntl();
   const actionRef = useRef<ActionType>();
   const dispatch = useDispatch();
@@ -29,79 +29,68 @@ const WardList: React.FC = () => {
 
   useEffect(() => {
     dispatch({
-      type: 'ward/updateWardList',
+      type: 'book_car/updateBookCarList',
       payload: {
         reload: () => actionRef.current?.reload(),
       },
     });
   }, []);
 
-  const columns: ProColumns<WardItem>[] = [
+  const columns: ProColumns<BookCarItem>[] = [
     {
       title: intl.formatMessage({ id: 'pages.keyword', defaultMessage: 'Tìm theo' }),
       dataIndex: 'keyword',
       hideInTable: true,
       formItemProps: {
         tooltip: intl.formatMessage({
-          id: 'pages.Area.Ward.WardList.tooltip',
+          id: 'pages.Admin.BookCar.BookCarList.tooltip',
           defaultMessage: 'Bạn có thể tìm kiếm theo tên, số điện thoại.',
         }),
       },
       fieldProps: {
         placeholder: intl.formatMessage({
-          id: 'pages.Area.Ward.WardList.placeholder',
+          id: 'pages.Admin.BookCar.BookCarList.placeholder',
           defaultMessage: 'Nhập mã, tên, số điện thoại.',
         }),
       },
     },
     {
-      title: 'Tỉnh/Thành phố',
-      dataIndex: ['province', 'name'],
-      key: 'province',
-      width: 150,
-      fieldProps: { placeholder: 'Chọn tỉnh/thành phố' },
-      renderFormItem: (_, __, form) => {
-        return (
-          <SelectProvince
-            noStyle
-            rules={[]}
-            fieldProps={{
-              onChange: () => {
-                form.setFieldsValue({ district: undefined });
-              },
-            }}
-          />
-        );
-      },
-      valueType: 'select',
-    },
-    {
-      title: 'Quận/Huyện',
-      dataIndex: ['district', 'name'],
-      key: 'district',
-      width: 150,
-      fieldProps: { placeholder: 'Chọn quận/huyện' },
-      renderFormItem: () => {
-        return (
-          <ProFormDependency name={['province']}>
-            {({ province }) => <SelectDistrict params={{ province }} noStyle rules={[]} />}
-          </ProFormDependency>
-        );
-      },
-      valueType: 'select',
-    },
-    {
-      title: 'Mã phường/xã',
-      dataIndex: 'code',
-      width: 120,
-      search: false,
-      renderText: (dom) => dom && <Tag color="default">{dom}</Tag>,
-    },
-    {
-      title: 'Tên phường/xã',
+      title: intl.formatMessage({ id: 'pages.name', defaultMessage: 'Tên' }),
       dataIndex: 'name',
       width: 150,
       search: false,
+    },
+    {
+      title: intl.formatMessage({ id: 'pages.phone', defaultMessage: 'Số điện thoại' }),
+      dataIndex: 'phone',
+      width: 130,
+      renderText: (dom) => phoneFormatter(dom),
+      search: false,
+    },
+    {
+      title: 'Loại xe',
+      dataIndex: ['type_car', 'name'],
+      key: 'type_car',
+      width: 150,
+      fieldProps: { placeholder: 'Chọn loại xe' },
+      renderFormItem: () => {
+        return <SelectTypeCar noStyle rules={[]} />;
+      },
+      valueType: 'select',
+    },
+    {
+      title: 'Địa chỉ đón',
+      dataIndex: 'from_address',
+      width: 200,
+      search: false,
+      ellipsis: true,
+    },
+    {
+      title: 'Địa chỉ đến',
+      dataIndex: 'to_address',
+      width: 200,
+      search: false,
+      ellipsis: true,
     },
     {
       title: intl.formatMessage({ id: 'pages.createdAt', defaultMessage: 'Ngày tạo' }),
@@ -123,8 +112,8 @@ const WardList: React.FC = () => {
       title: intl.formatMessage({ id: 'pages.status', defaultMessage: 'Trạng thái' }),
       dataIndex: 'status',
       width: 100,
-      renderText: (dom, record: WardItem) => {
-        return <ChangeStatusWard status={dom} record={record} />;
+      renderText: (dom, record: BookCarItem) => {
+        return <ChangeStatusBookCar status={dom} record={record} />;
       },
       fieldProps: {
         placeholder: intl.formatMessage({
@@ -147,7 +136,7 @@ const WardList: React.FC = () => {
       render: (_, record) => [
         <Tooltip
           className={`${access.className([TYPE_FORM.UPDATE])}`}
-          key="update-ward"
+          key="update-book-car"
           title={getUpdateTooltip()}
           color="cyan"
           placement="left"
@@ -155,7 +144,7 @@ const WardList: React.FC = () => {
           <a
             onClick={() => {
               dispatch({
-                type: 'ward/updateWardForm',
+                type: 'book_car/updateBookCarForm',
                 payload: { itemEdit: record, type: TYPE_FORM.UPDATE },
               });
             }}
@@ -165,7 +154,7 @@ const WardList: React.FC = () => {
         </Tooltip>,
         <Tooltip
           className={`${access.className([TYPE_FORM.COPY])}`}
-          key="copy-ward"
+          key="copy-book-car"
           title={getCopyTooltip()}
           color="cyan"
           placement="left"
@@ -173,7 +162,7 @@ const WardList: React.FC = () => {
           <a
             onClick={() => {
               dispatch({
-                type: 'ward/updateWardForm',
+                type: 'book_car/updateBookCarForm',
                 payload: { itemEdit: record, type: TYPE_FORM.COPY },
               });
             }}
@@ -183,7 +172,7 @@ const WardList: React.FC = () => {
         </Tooltip>,
         <Tooltip
           className={`${access.className([TYPE_FORM.UPDATE_PASSWORD])}`}
-          key="change-password-ward"
+          key="change-password-book-car"
           title={getUpdatePasswordTooltip()}
           color="cyan"
           placement="left"
@@ -191,7 +180,7 @@ const WardList: React.FC = () => {
           <a
             onClick={() => {
               dispatch({
-                type: 'ward/updateWardForm',
+                type: 'book_car/updateBookCarForm',
                 payload: { itemEdit: record, type: TYPE_FORM.UPDATE_PASSWORD },
               });
             }}
@@ -205,10 +194,10 @@ const WardList: React.FC = () => {
 
   return (
     <div>
-      <ProTable<WardItem>
+      <ProTable<BookCarItem>
         headerTitle={intl.formatMessage({
-          id: 'pages.Area.Ward.WardList.headerTitle',
-          defaultMessage: 'Danh sách phường/xã',
+          id: 'pages.Admin.BookCar.BookCarList.headerTitle',
+          defaultMessage: 'Danh sách đặt xe',
         })}
         search={{
           layout: 'vertical',
@@ -218,9 +207,9 @@ const WardList: React.FC = () => {
         sticky={true}
         pagination={{ ...PAGINATE_OPTIONS }}
         request={async (params, sort, filter) => {
-          return await queryWards(params, sort, filter);
+          return await queryBookCars(params, sort, filter);
         }}
-        toolBarRender={() => [<CreateWard key="create-ward" />]}
+        toolBarRender={() => [<CreateBookCar key="create-book-car" />]}
         columns={columns}
         scroll={scrollTable}
       />
@@ -228,4 +217,4 @@ const WardList: React.FC = () => {
   );
 };
 
-export default WardList;
+export default BookCarList;

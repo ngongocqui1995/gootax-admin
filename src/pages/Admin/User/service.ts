@@ -8,7 +8,7 @@ import {
 import request from '@/utils/request';
 import { joinConverter, paramsConverter, removeParamsEmpty, sortConverter } from '@/utils/utils';
 
-const keyword_params = 'name,phone,email';
+const keyword_params = 'code,name,phone';
 const join_params = {
   role: [{ key: 'role.id', condition: '$eq' }],
   gender: [{ key: 'gender', condition: '$in' }],
