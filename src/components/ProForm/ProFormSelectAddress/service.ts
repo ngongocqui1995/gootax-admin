@@ -1,18 +1,10 @@
-import { request } from '@umijs/max';
+import request from '@/utils/request';
 
 export const findGoogleMapsAPI = async (address: string) => {
-  const res = await request(
-    `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json`,
-    {
-      method: 'GET',
-      params: {
-        key: GOOGLE_MAPS_APIKEY,
-        query: address,
-        language: 'vi',
-        radius: 100,
-      },
-      responseType: 'json',
-    },
-  );
+  const res = await request({
+    url: `map`,
+    method: 'GET',
+    params: { address },
+  });
   return res?.results || [];
 };
