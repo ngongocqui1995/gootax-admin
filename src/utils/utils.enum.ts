@@ -327,6 +327,18 @@ const statusAutoUploadEnum = {
   },
 };
 
+export const statusBookCar = {
+  INIT: { text: 'Khởi tạo', key: 'INIT', id: 'pages.status.INIT', color: 'default' },
+  DRIVER_ACCEPTED: {
+    text: 'Tài xế đã nhận đơn',
+    key: 'DRIVER_ACCEPTED',
+    id: 'pages.status.DRIVER_ACCEPTED',
+    color: 'gold',
+  },
+  CANCEL: { text: 'Bị huỷ', key: 'CANCEL', id: 'pages.status.CANCEL', color: 'error' },
+  DONE: { text: 'Hoàn thành', key: 'DONE', id: 'pages.status.DONE', color: 'success' },
+};
+
 const statusEnum = {
   INIT: { text: 'Khởi tạo', key: 'INIT', id: 'pages.status.INIT' },
   ACTIVE: { text: 'Hoạt động', key: 'ACTIVE', id: 'pages.status.ACTIVE' },

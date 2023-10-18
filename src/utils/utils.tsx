@@ -265,11 +265,11 @@ export const getStatusAutoUploadEnum = () => {
   return newObj;
 };
 
-export const getStatusEnum = () => {
+export const getStatusEnum = (enums: any = statusEnum) => {
   const newObj: any = {};
   // @ts-ignore
   const intl = useIntl();
-  lodash.forOwn(statusEnum, (value, key) => {
+  lodash.forOwn(enums, (value, key) => {
     newObj[key] = {
       ...value,
       text: intl.formatMessage({ id: value.id, defaultMessage: value.text }),

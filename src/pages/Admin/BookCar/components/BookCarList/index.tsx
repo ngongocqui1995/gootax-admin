@@ -13,12 +13,11 @@ import React, { useEffect, useRef } from 'react';
 // @ts-ignore
 import Access from '@/components/Access';
 import { SelectTypeCar } from '@/components/ProForm';
-import { TYPE_FORM } from '@/utils/utils.enum';
+import { TYPE_FORM, statusBookCar } from '@/utils/utils.enum';
 import { useDispatch, useIntl } from '@umijs/max';
-import { Tooltip } from 'antd';
+import { Tag, Tooltip } from 'antd';
 import { BookCarItem } from '../../data';
 import { queryBookCars } from '../../service';
-import ChangeStatusBookCar from './components/ChangeStatusBookCar';
 import CreateBookCar from './components/ToolBar/CreateBookCar';
 
 const BookCarList: React.FC = () => {
@@ -112,8 +111,8 @@ const BookCarList: React.FC = () => {
       title: intl.formatMessage({ id: 'pages.status', defaultMessage: 'Trạng thái' }),
       dataIndex: 'status',
       width: 100,
-      renderText: (dom, record: BookCarItem) => {
-        return <ChangeStatusBookCar status={dom} record={record} />;
+      renderText: (dom) => {
+        return <Tag color={statusBookCar[dom]?.color}>{statusBookCar[dom]?.text}</Tag>;
       },
       fieldProps: {
         placeholder: intl.formatMessage({
@@ -122,7 +121,7 @@ const BookCarList: React.FC = () => {
         }),
       },
       valueType: 'select',
-      valueEnum: getStatusEnum(),
+      valueEnum: getStatusEnum(statusBookCar),
       hideInTable: !access.accessible([TYPE_FORM.UPDATE_STATUS]),
     },
     {
