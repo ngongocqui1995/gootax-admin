@@ -27,7 +27,7 @@ export async function queryDrivers(
       join_params,
     ),
     params: paramsConverter({ ...params }, join_params, keyword_params),
-    sorts: sortConverter({ ...sort, updatedAt: 'descend' }),
+    sorts: sortConverter({ ...sort, createdAt: 'descend' }),
   });
   return {
     data: res?.data || [],

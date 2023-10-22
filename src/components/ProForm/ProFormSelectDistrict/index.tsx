@@ -19,7 +19,7 @@ const ProFormSelectDistrict: React.FC<ProFormSelectDistrictProps> = (props) => {
       showSearch
       rules={[
         {
-          required: true,
+          // required: true,
           message: 'Quận/Huyện là bắt buộc!',
         },
       ]}

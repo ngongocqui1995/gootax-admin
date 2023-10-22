@@ -328,15 +328,31 @@ const statusAutoUploadEnum = {
 };
 
 export const statusBookCar = {
-  INIT: { text: 'Khởi tạo', key: 'INIT', id: 'pages.status.INIT', color: 'default' },
-  DRIVER_ACCEPTED: {
-    text: 'Tài xế đã nhận đơn',
-    key: 'DRIVER_ACCEPTED',
-    id: 'pages.status.DRIVER_ACCEPTED',
-    color: 'gold',
+  FINDING: {
+    text: 'Đang tìm tài xế',
+    key: 'FINDING',
+    id: 'pages.status.FINDING',
+    color: 'default',
   },
-  CANCEL: { text: 'Bị huỷ', key: 'CANCEL', id: 'pages.status.CANCEL', color: 'error' },
-  DONE: { text: 'Hoàn thành', key: 'DONE', id: 'pages.status.DONE', color: 'success' },
+  PICKING: {
+    text: 'Đang đón khách',
+    key: 'PICKING',
+    id: 'pages.status.PICKING',
+    color: 'warning',
+  },
+  RIDING: {
+    text: 'Trong chuyến đi',
+    key: 'RIDING',
+    id: 'pages.status.RIDING',
+    color: 'processing',
+  },
+  CANCELED: { text: 'Bị huỷ', key: 'CANCELED', id: 'pages.status.CANCELED', color: 'error' },
+  COMPLETED: {
+    text: 'Hoàn thành',
+    key: 'COMPLETED',
+    id: 'pages.status.COMPLETED',
+    color: 'success',
+  },
 };
 
 const statusEnum = {

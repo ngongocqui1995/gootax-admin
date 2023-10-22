@@ -19,7 +19,7 @@ const ProFormSelectRoad: React.FC<ProFormSelectRoadProps> = (props) => {
       showSearch
       rules={[
         {
-          required: true,
+          // required: true,
           message: 'Đường là bắt buộc!',
         },
       ]}

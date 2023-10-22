@@ -30,6 +30,9 @@ export interface BookCarItem {
   customer: CustomerItem;
   driver: DriverItem;
   updatedAt: string;
+  amount: number;
+  distance: number;
+  note: string;
 }
 
 export interface CreateBookCar {

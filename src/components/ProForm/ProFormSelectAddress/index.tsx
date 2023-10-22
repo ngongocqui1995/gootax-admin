@@ -18,20 +18,17 @@ const ProFormSelectAddress: React.FC<ProFormSelectProps> = (props) => {
       ]}
       debounceTime={1000}
       request={async (params) => {
-        if (
-          !params?.keyWords ||
-          !params.province ||
-          !params.district ||
-          !params.ward ||
-          !params.road
-        )
-          return [];
+        if (!params?.keyWords || params?.keyWords === '') return [];
 
+        const province = params?.province ? `, ${params?.province}` : '';
+        const district = params?.district ? `, ${params?.district}` : '';
+        const ward = params?.ward ? `, ${params?.ward}` : '';
+        const road = params?.road ? ` ${params?.road}` : '';
         const res = await findGoogleMapsAPI(
-          `${params.keyWords} ${params.road}, ${params.ward}, ${params.district}, ${params.province}, Việt Nam`,
+          `${params.keyWords}${road}${ward}${district}${province}`,
         );
         return res?.map((it: any) => ({
-          value: `${it.place_id}`,
+          value: `${it.formatted_address}`,
           label: it.formatted_address,
           item: it,
         }));

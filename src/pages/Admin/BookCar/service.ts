@@ -1,5 +1,6 @@
 import request from '@/utils/request';
 import { joinConverter, paramsConverter, removeParamsEmpty, sortConverter } from '@/utils/utils';
+import querystring from 'querystring';
 import {
   ChangePasswordBookCar,
   ChangeStatusBookCar,
@@ -44,6 +45,19 @@ export async function createBookCar(body: CreateBookCar) {
     url: `book-cars`,
     method: 'POST',
     body: removeParamsEmpty(body),
+  });
+}
+
+export async function checkPrice(query: {
+  from_lat: number;
+  from_lng: number;
+  to_lat: number;
+  to_lng: number;
+  type_car_id: string;
+}) {
+  return await request({
+    url: `map/check-price?${querystring.stringify(query)}`,
+    method: 'GET',
   });
 }
 

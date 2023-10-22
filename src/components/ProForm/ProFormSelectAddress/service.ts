@@ -6,5 +6,5 @@ export const findGoogleMapsAPI = async (address: string) => {
     method: 'GET',
     params: { address },
   });
-  return res?.results || [];
+  return res?.candidates || [];
 };

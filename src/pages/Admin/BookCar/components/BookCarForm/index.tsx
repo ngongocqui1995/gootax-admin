@@ -15,8 +15,9 @@ import { TYPE_FORM } from '@/utils/utils.enum';
 import { ProFormText } from '@ant-design/pro-components';
 import ProForm, { ProFormDependency } from '@ant-design/pro-form';
 import { useDispatch, useIntl, useSelector } from '@umijs/max';
+import { Button } from 'antd';
 import { BookCarModalState } from '../../model';
-import { createBookCar, updateBookCar } from '../../service';
+import { checkPrice, createBookCar, updateBookCar } from '../../service';
 
 const formLayout = {
   labelCol: { span: 6 },
@@ -85,6 +86,21 @@ const BookCarForm: React.FC = () => {
       setModalVisible(!!book_car.BookCarForm?.type);
     })();
   }, [book_car.BookCarForm?.type]);
+
+  const callCheckPrice = async () => {
+    let priceAndDistance = await checkPrice({
+      from_lat: form.getFieldsValue().from_address_lat,
+      from_lng: form.getFieldsValue().from_address_lng,
+      to_lat: form.getFieldsValue().to_address_lat,
+      to_lng: form.getFieldsValue().to_address_lng,
+      type_car_id: form.getFieldsValue().type_car,
+    });
+
+    form.setFieldsValue({
+      distance: priceAndDistance?.distance || 0,
+      amount: priceAndDistance?.amount || 0,
+    });
+  };
 
   const renderContent = () => {
     if (!book_car.BookCarForm?.type) return;
@@ -421,6 +437,39 @@ const BookCarForm: React.FC = () => {
           <ProFormText name="to_address_lat" hidden />
           <ProFormText name="to_address_lng" hidden />
         </Card>
+        <Button type="primary" onClick={callCheckPrice} className="mt-4">
+          Báo giá
+        </Button>
+        <Divider />
+        <Card title="Báo giá">
+          <ProFormText
+            disabled
+            name="distance"
+            label="Khoảng cách"
+            initialValue={form.getFieldsValue().distance}
+            placeholder="Khoảng cách"
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng kiểm tra báo giá',
+              },
+            ]}
+          />
+          <ProFormText
+            disabled
+            name="amount"
+            label="Thành tiền"
+            initialValue={form.getFieldsValue().amount}
+            placeholder="Thành tiền"
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng kiểm tra báo giá',
+              },
+            ]}
+          />
+          <ProFormText name="note" label="Ghi chú" placeholder="Ghi chú" />
+        </Card>
       </>
     );
   };
@@ -497,6 +546,10 @@ const BookCarForm: React.FC = () => {
               to_address_ward: values.to_address_ward?.value,
               to_address_road: values.to_address_road?.value,
             };
+
+            for (const property in body) {
+              if (!body[property]) delete body[property];
+            }
 
             let res;
             switch (book_car.BookCarForm?.type) {

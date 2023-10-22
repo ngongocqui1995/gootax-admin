@@ -19,7 +19,7 @@ const ProFormSelectProvince: React.FC<ProFormSelectProvinceProps> = (props) => {
       showSearch
       rules={[
         {
-          required: true,
+          // required: true,
           message: 'Tỉnh/Thành phố là bắt buộc!',
         },
       ]}
