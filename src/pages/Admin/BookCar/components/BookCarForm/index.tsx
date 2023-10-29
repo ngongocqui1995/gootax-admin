@@ -446,7 +446,6 @@ const BookCarForm: React.FC = () => {
             disabled
             name="distance"
             label="Khoảng cách"
-            initialValue={form.getFieldsValue().distance}
             placeholder="Khoảng cách"
             rules={[
               {
@@ -459,12 +458,11 @@ const BookCarForm: React.FC = () => {
             disabled
             name="amount"
             label="Thành tiền"
-            initialValue={form.getFieldsValue().amount}
             placeholder="Thành tiền"
             rules={[
               {
                 required: true,
-                message: 'Vui lòng kiểm tra báo giá',
+                message: 'Vui lòng kiểm tra thành tiền',
               },
             ]}
           />

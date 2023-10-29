@@ -16,7 +16,6 @@ const ProFormSelectAddress: React.FC<ProFormSelectProps> = (props) => {
           message: 'Địa chỉ là bắt buộc!',
         },
       ]}
-      debounceTime={1000}
       request={async (params) => {
         if (!params?.keyWords || params?.keyWords === '') return [];
 
@@ -28,7 +27,7 @@ const ProFormSelectAddress: React.FC<ProFormSelectProps> = (props) => {
           `${params.keyWords}${road}${ward}${district}${province}`,
         );
         return res?.map((it: any) => ({
-          value: `${it.formatted_address}`,
+          value: it.place_id,
           label: it.formatted_address,
           item: it,
         }));
@@ -38,6 +37,7 @@ const ProFormSelectAddress: React.FC<ProFormSelectProps> = (props) => {
       fieldProps={{
         placeholder: 'Chọn địa chỉ.',
         ...props.fieldProps,
+        filterOption: false,
       }}
     />
   );
