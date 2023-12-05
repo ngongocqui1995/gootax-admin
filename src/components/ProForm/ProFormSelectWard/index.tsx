@@ -19,7 +19,7 @@ const ProFormSelectWard: React.FC<ProFormSelectWardProps> = (props) => {
       showSearch
       rules={[
         {
-          // required: true,
+          required: true,
           message: 'Phường/Xã là bắt buộc!',
         },
       ]}

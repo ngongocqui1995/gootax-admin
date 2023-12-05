@@ -121,7 +121,7 @@ const BookCarForm: React.FC = () => {
             []
           }
         />
-        <Card title="Địa chỉ đón">
+        <Card title="Địa chỉ đón" size="small">
           <SelectProvince
             name="from_address_province"
             type={book_car.BookCarForm.type}
@@ -134,6 +134,7 @@ const BookCarForm: React.FC = () => {
               ]) ||
               []
             }
+            rules={[]}
             fieldProps={{
               labelInValue: true,
               onChange: () => {
@@ -150,6 +151,7 @@ const BookCarForm: React.FC = () => {
             {({ from_address_province }) => {
               return (
                 <SelectDistrict
+                  rules={[]}
                   name="from_address_district"
                   params={{ province: from_address_province?.value }}
                   type={book_car.BookCarForm?.type}
@@ -180,6 +182,7 @@ const BookCarForm: React.FC = () => {
             {({ from_address_province, from_address_district }) => {
               return (
                 <SelectWard
+                  rules={[]}
                   name="from_address_ward"
                   params={{
                     province: from_address_province?.value,
@@ -214,6 +217,7 @@ const BookCarForm: React.FC = () => {
             {({ from_address_province, from_address_district, from_address_ward }) => {
               return (
                 <SelectRoad
+                  rules={[]}
                   name="from_address_road"
                   params={{
                     province: from_address_province?.value,
@@ -279,9 +283,10 @@ const BookCarForm: React.FC = () => {
           </ProFormDependency>
         </Card>
         <Divider />
-        <Card title="Địa chỉ đến">
+        <Card title="Địa chỉ đến" size="small">
           <SelectProvince
             name="to_address_province"
+            rules={[]}
             type={book_car.BookCarForm.type}
             defaultOptions={
               (book_car.BookCarForm.itemEdit?.to_address_province?.id && [
@@ -308,6 +313,7 @@ const BookCarForm: React.FC = () => {
             {({ to_address_province }) => {
               return (
                 <SelectDistrict
+                  rules={[]}
                   name="to_address_district"
                   type={book_car.BookCarForm?.type}
                   params={{ province: to_address_province?.value }}
@@ -338,6 +344,7 @@ const BookCarForm: React.FC = () => {
             {({ to_address_province, to_address_district }) => {
               return (
                 <SelectWard
+                  rules={[]}
                   name="to_address_ward"
                   type={book_car.BookCarForm?.type}
                   params={{
@@ -372,6 +379,7 @@ const BookCarForm: React.FC = () => {
             {({ to_address_province, to_address_district, to_address_ward }) => {
               return (
                 <SelectRoad
+                  rules={[]}
                   name="to_address_road"
                   type={book_car.BookCarForm?.type}
                   params={{
@@ -437,37 +445,50 @@ const BookCarForm: React.FC = () => {
           <ProFormText name="to_address_lat" hidden />
           <ProFormText name="to_address_lng" hidden />
         </Card>
-        <Button type="primary" onClick={callCheckPrice} className="mt-4">
-          Báo giá
-        </Button>
-        <Divider />
-        <Card title="Báo giá">
-          <ProFormText
-            disabled
-            name="distance"
-            label="Khoảng cách"
-            placeholder="Khoảng cách"
-            rules={[
-              {
-                required: true,
-                message: 'Vui lòng kiểm tra báo giá',
-              },
-            ]}
-          />
-          <ProFormText
-            disabled
-            name="amount"
-            label="Thành tiền"
-            placeholder="Thành tiền"
-            rules={[
-              {
-                required: true,
-                message: 'Vui lòng kiểm tra thành tiền',
-              },
-            ]}
-          />
-          <ProFormText name="note" label="Ghi chú" placeholder="Ghi chú" />
-        </Card>
+        <ProFormDependency
+          name={['from_address_lat', 'from_address_lng', 'to_address_lat', 'to_address_lng']}
+        >
+          {({ from_address_lat, from_address_lng, to_address_lat, to_address_lng }) => {
+            if (!from_address_lat || !from_address_lng || !to_address_lat || !to_address_lng)
+              return;
+            return (
+              <>
+                <div className="flex justify-center items-center my-4">
+                  <Button type="primary" onClick={callCheckPrice}>
+                    Báo giá
+                  </Button>
+                </div>
+                <Card title="Báo giá" size="small">
+                  <ProFormText
+                    disabled
+                    name="distance"
+                    label="Khoảng cách"
+                    placeholder="Khoảng cách"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Vui lòng kiểm tra báo giá',
+                      },
+                    ]}
+                  />
+                  <ProFormText
+                    disabled
+                    name="amount"
+                    label="Thành tiền"
+                    placeholder="Thành tiền"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Vui lòng kiểm tra thành tiền',
+                      },
+                    ]}
+                  />
+                  <ProFormText name="note" label="Ghi chú" placeholder="Ghi chú" />
+                </Card>
+              </>
+            );
+          }}
+        </ProFormDependency>
       </>
     );
   };
