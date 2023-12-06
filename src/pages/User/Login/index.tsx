@@ -14,15 +14,15 @@ import { getProfile, login } from './services';
 const goto = () => {
   if (!history) return;
   setTimeout(() => {
-    const { query } = history.location;
+    const { query }: any = history.location;
     const { redirect } = query || {};
-    history.push(redirect || '/admin');
+    history.push(redirect || '/dashboard');
   }, 10);
 };
 
 const Login: React.FC = () => {
   const [loginSubmitting, setLoginSubmitting] = React.useState(false);
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const { initialState, setInitialState }: any = useModel('@@initialState');
   const [form] = ProForm.useForm();
   const settingDrawer = getSettingDrawer();
   const setting = { ...initialState?.settings, ...settingDrawer };

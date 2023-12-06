@@ -171,6 +171,16 @@ export default [
     ],
   },
   {
+    path: '/dashboard',
+    hideInMenu: true,
+    name: 'Dashboard',
+    component: './Dashboard',
+  },
+  {
+    path: '/',
+    redirect: '/dashboard',
+  },
+  {
     path: '*',
     layout: false,
     component: './404',
