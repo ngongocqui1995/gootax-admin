@@ -2,7 +2,6 @@ import { LineChartOutlined } from '@ant-design/icons';
 import { Line } from '@ant-design/plots';
 import { useAsyncEffect, useSetState } from 'ahooks';
 import { Card, Empty } from 'antd';
-import dayjs from 'dayjs';
 import { queryOrder } from '../../service';
 
 interface StatisticSummaryProps {
@@ -43,18 +42,13 @@ const StatisticSummary: React.FC<StatisticSummaryProps> = (props) => {
       {state.data?.length !== 0 && (
         <Line
           data={state.data}
-          xField="createdAt"
+          xField="createdat"
           yField="sum"
           seriesField="title"
           animation={{
             appear: {
               animation: 'path-in',
               duration: 5000,
-            },
-          }}
-          xAxis={{
-            label: {
-              formatter: (v: string) => dayjs(v).format('DD/MM/YYYY'),
             },
           }}
           yAxis={{
