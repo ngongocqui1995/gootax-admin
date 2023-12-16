@@ -1,6 +1,7 @@
 import { CarOutlined, DollarOutlined, UserOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { useAsyncEffect, useSetState } from 'ahooks';
 import { Card, Col, Row, Spin } from 'antd';
+import to from 'await-to-js';
 import { StateStatistic } from '../../data';
 import { queryStatistic } from '../../service';
 
@@ -46,10 +47,10 @@ const StatisticDashboard: React.FC<StatisticDashboardProps> = (props) => {
 
   useAsyncEffect(async () => {
     setState({ loading: true });
-    const res = await queryStatistic(props.params());
+    const [, res] = await to(queryStatistic(props.params()));
 
     setState({
-      data: state.data.map((item) => ({ ...item, total: res.data?.[item.key] || 0 })),
+      data: state.data.map((item) => ({ ...item, total: res?.data?.[item.key] || 0 })),
       loading: false,
     });
   }, [props.loading]);

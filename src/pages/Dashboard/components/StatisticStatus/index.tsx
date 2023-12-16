@@ -2,6 +2,7 @@ import { PieChartOutlined } from '@ant-design/icons';
 import { Pie } from '@ant-design/plots';
 import { useAsyncEffect, useSetState } from 'ahooks';
 import { Card, Empty } from 'antd';
+import to from 'await-to-js';
 import { queryOrderStatus } from '../../service';
 
 interface StatisticStatusProps {
@@ -17,10 +18,10 @@ const StatisticStatus: React.FC<StatisticStatusProps> = (props) => {
 
   useAsyncEffect(async () => {
     setState({ loading: true });
-    const res = await queryOrderStatus(props.params());
+    const [, res] = await to(queryOrderStatus(props.params()));
 
     setState({
-      data: res.data || [],
+      data: res?.data || [],
       loading: false,
     });
   }, [props.loading]);

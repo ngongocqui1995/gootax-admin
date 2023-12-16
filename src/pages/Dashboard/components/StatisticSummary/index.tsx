@@ -20,7 +20,7 @@ const StatisticSummary: React.FC<StatisticSummaryProps> = (props) => {
     const res = await queryOrder(props.params());
 
     setState({
-      data: res.data?.map((item: any) => ({ ...item, sum: +item.sum })) || [],
+      data: res?.data?.map?.((item: any) => ({ ...item, sum: +item.sum })) || [],
       loading: false,
     });
   }, [props.loading]);
